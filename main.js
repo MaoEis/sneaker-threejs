@@ -3,6 +3,8 @@ import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 
+import "./style.css";
+
 // Set up the scene, camera, and renderer
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(
@@ -33,25 +35,22 @@ directionalLight.position.set(5, 10, 7.5);
 directionalLight.castShadow = true;
 scene.add(directionalLight);
 
-// Create a reflective plane for the floor
-const planeGeometry = new THREE.PlaneGeometry(500, 500);
-const planeMaterial = new THREE.MeshPhongMaterial({
-  color: 0xaaaaaa,
-  shininess: 100,
-  reflectivity: 0.5,
-});
-const floor = new THREE.Mesh(planeGeometry, planeMaterial);
-floor.rotation.x = -Math.PI / 2;
-floor.position.y = -10;
-floor.receiveShadow = true;
-scene.add(floor);
-
 const hemiLight = new THREE.HemisphereLight(0xffffff, 0x444444, 1.5);
 scene.add(hemiLight);
 
 const dirLight = new THREE.DirectionalLight(0xffffff, 2);
 dirLight.position.set(5, 10, 7.5);
 scene.add(dirLight);
+
+// add backgroundphere with space.png
+const backgroundSphere = new THREE.Mesh(
+  new THREE.SphereGeometry(500, 60, 40),
+  new THREE.MeshBasicMaterial({
+    map: new THREE.TextureLoader().load("space.png"),
+    side: THREE.BackSide,
+  })
+);
+scene.add(backgroundSphere);
 
 // add shoe.glb
 const loader = new GLTFLoader();
@@ -64,18 +63,21 @@ loader.load(
     shoe.castShadow = true;
     shoe.receiveShadow = true;
     scene.add(shoe);
+    //rotate 90 degrees x-as
 
-    gltf.scene.traverse((child) => {
-      if (child.isMesh) {
-        child.material = new THREE.MeshMatcapMaterial({
-          matcap: new THREE.TextureLoader().load("matcap.png"),
-          color: 0xffffff,
-          reflectivity: 0.2,
-          metalness: 0.2,
-          roughness: 0.5,
-        });
-      }
-    });
+    shoe.rotation.y = Math.PI / -2;
+
+    // gltf.scene.traverse((child) => {
+    //   if (child.isMesh) {
+    //     child.material = new THREE.MeshMatcapMaterial({
+    //       matcap: new THREE.TextureLoader().load("matcap.png"),
+    //       color: 0xffffff,
+    //       reflectivity: 0.2,
+    //       metalness: 0.2,
+    //       roughness: 0.5,
+    //     });
+    //   }
+    // });
   },
   undefined,
   (error) => {
