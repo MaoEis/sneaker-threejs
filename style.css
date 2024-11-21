@@ -3,3 +3,84 @@
   padding: 0;
   box-sizing: border-box;
 }
+
+body {
+  font-family: rubik, sans-serif;
+  color: #f5f5f5;
+  /* position: relative; */
+}
+
+.customise {
+  position: absolute;
+  width: 100vw;
+  height: 35vh; /* Fixed typo: 'hw' changed to 'vh' */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: black;
+  gap: 40px;
+  bottom: 0;
+  padding: 20px 200px;
+}
+
+.nav {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 300px;
+}
+
+.nav a {
+  text-decoration: none;
+  color: #03f100;
+}
+.options {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 20px;
+}
+
+.colour,
+.fabric {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+}
+
+.colorOption,
+.fabricOption {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  font-size: small;
+}
+
+.box-container,
+.fabric-container {
+  max-width: 50px;
+}
+
+.btn {
+  background-color: #03f100;
+  color: #f5f5f5;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  padding: 12px 22px;
+}
+
+.btn a {
+  text-decoration: none;
+  color: black;
+  font-weight: 900;
+}

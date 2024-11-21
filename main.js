@@ -2,6 +2,7 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+import { GUI } from "dat.gui";
 
 import "./style.css";
 
@@ -46,25 +47,26 @@ scene.add(dirLight);
 const backgroundSphere = new THREE.Mesh(
   new THREE.SphereGeometry(500, 60, 40),
   new THREE.MeshBasicMaterial({
-    map: new THREE.TextureLoader().load("space.png"),
+    map: new THREE.TextureLoader().load("backgroundcolours.png"),
     side: THREE.BackSide,
   })
 );
 scene.add(backgroundSphere);
 
 // add shoe.glb
+let shoe;
+
 const loader = new GLTFLoader();
 loader.load(
   "shoe.glb",
   (gltf) => {
-    const shoe = gltf.scene;
+    shoe = gltf.scene;
     shoe.position.y = 0;
     shoe.scale.set(1, 1, 1);
     shoe.castShadow = true;
     shoe.receiveShadow = true;
     scene.add(shoe);
     //rotate 90 degrees x-as
-
     shoe.rotation.y = Math.PI / -2;
 
     // gltf.scene.traverse((child) => {
@@ -85,9 +87,44 @@ loader.load(
   }
 );
 
-// const boxHelper = new THREE.BoxHelper(shoe, 0xff0000);
-// scene.add(boxHelper);
-// Create a red cube
+const gui = new GUI();
+const settings = {
+  lightIntensity: 0,
+  shoeX: 0,
+  shoeY: 0,
+  shoeZ: 0,
+  rotationSpeed: 0.01,
+};
+
+gui
+  .add(settings, "lightIntensity", -2, 2, 0.1)
+  .name("Light Intensity")
+  .onChange((value) => {
+    directionalLight.intensity = value;
+  });
+
+gui
+  .add(settings, "shoeX", -5, 5, 0.1)
+  .name("Shoe X Position")
+  .onChange((value) => {
+    shoe.position.x = value;
+  });
+
+gui
+  .add(settings, "shoeY", -5, 5, 0.1)
+  .name("Shoe Y Position")
+  .onChange((value) => {
+    shoe.position.y = value;
+  });
+
+gui
+  .add(settings, "shoeZ", -5, 5, 0.1)
+  .name("Shoe Z Position")
+  .onChange((value) => {
+    shoe.position.z = value;
+  });
+
+gui.add(settings, "rotationSpeed", 0, 0.1, 0.01).name("Rotation Speed");
 
 // Position the camera
 camera.position.z = 10;
@@ -96,6 +133,8 @@ camera.position.y = 3;
 // Rotate the cube and update controls
 function animate() {
   requestAnimationFrame(animate);
+
+  shoe.rotation.y += settings.rotationSpeed;
 
   controls.update(); // Required if damping is enabled
   renderer.render(scene, camera);
