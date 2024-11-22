@@ -60,26 +60,23 @@ const loader = new GLTFLoader();
 loader.load(
   "shoe.glb",
   (gltf) => {
+    // change material to standard white(.map)
+    gltf.scene.traverse((child) => {
+      if (child.isMesh) {
+        child.material = new THREE.MeshStandardMaterial({
+          color: 0xffffff,
+          metalness: 0.2,
+          roughness: 0.5,
+        });
+      }
+    });
     shoe = gltf.scene;
     shoe.position.y = 0;
     shoe.scale.set(1, 1, 1);
     shoe.castShadow = true;
     shoe.receiveShadow = true;
     scene.add(shoe);
-    //rotate 90 degrees x-as
     shoe.rotation.y = Math.PI / -2;
-
-    // gltf.scene.traverse((child) => {
-    //   if (child.isMesh) {
-    //     child.material = new THREE.MeshMatcapMaterial({
-    //       matcap: new THREE.TextureLoader().load("matcap.png"),
-    //       color: 0xffffff,
-    //       reflectivity: 0.2,
-    //       metalness: 0.2,
-    //       roughness: 0.5,
-    //     });
-    //   }
-    // });
   },
   undefined,
   (error) => {
@@ -87,13 +84,137 @@ loader.load(
   }
 );
 
+//make a raycaster
+const raycaster = new THREE.Raycaster();
+const pointer = new THREE.Vector2();
+
+//mouse click
+// window.addEventListener("click", (event) => {
+//   pointer.x = (event.clientX / window.innerWidth) * 2 - 1;
+//   pointer.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+//   raycaster.setFromCamera(pointer, camera);
+
+//   const intersects = raycaster.intersectObjects(scene.children, true);
+
+//   if (intersects.length > 0) {
+//     const firstIntersect = intersects[0];
+//     if (
+//       firstIntersect.object.material &&
+//       firstIntersect.object.material.color
+//     ) {
+//       firstIntersect.object.material.color.set(0xff0000);
+//     }
+//     console.log(
+//       "Clicked object:",
+//       firstIntersect.object.name || firstIntersect.object
+//     );
+//   }
+// });
+
+// Store original colors of the objects
+scene.children.forEach((child) => {
+  if (child.material && child.material.color) {
+    child.originalColor = child.material.color.getHex(); // Store original color
+  }
+});
+
+let lastHoveredObject = null;
+
+window.addEventListener("mousemove", (event) => {
+  pointer.x = (event.clientX / window.innerWidth) * 2 - 1;
+  pointer.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+  raycaster.setFromCamera(pointer, camera);
+
+  const intersects = raycaster.intersectObjects(scene.children, true);
+
+  // Reset all object colors back to their original color if not intersected
+  scene.children.forEach((child) => {
+    if (child.material && child.material.color) {
+      // Reset color if it's not the currently hovered object
+      if (
+        intersects.length === 0 ||
+        !intersects.some((intersect) => intersect.object === child)
+      ) {
+        child.material.color.set(child.originalColor || 0xffffff);
+      }
+    }
+  });
+
+  if (intersects.length > 0) {
+    const firstIntersect = intersects[0];
+    const intersectedObject = firstIntersect.object;
+
+    // Check for specific object names and highlight in red
+    const highlightedObjects = [
+      "sole_bottom",
+      "sole_top",
+      "laces",
+      "outside_1",
+      "outside_2",
+      "outside_3",
+      "inside",
+    ];
+
+    if (highlightedObjects.includes(intersectedObject.name)) {
+      if (intersectedObject.material && intersectedObject.material.color) {
+        intersectedObject.material.emissive.set(0xc702fe); // Highlight in red
+      }
+      if (lastHoveredObject && lastHoveredObject !== intersectedObject) {
+        lastHoveredObject.material.color.set(
+          lastHoveredObject.originalColor || 0xffffff
+        );
+        lastHoveredObject.material.emissive.set(0x000000);
+      }
+
+      // Update the last hovered object
+      lastHoveredObject = intersectedObject;
+    } else {
+      // When no object is intersected, reset the last hovered object if any
+      if (lastHoveredObject) {
+        lastHoveredObject.material.color.set(
+          lastHoveredObject.originalColor || 0xffffff
+        );
+        lastHoveredObject.material.emissive.set(0x000000);
+        lastHoveredObject = null; // Clear the reference
+      }
+    }
+  }
+});
+
+// window.addEventListener("mousemove", (event) => {
+//   pointer.x = (event.clientX / window.innerWidth) * 2 - 1;
+//   pointer.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+//   raycaster.setFromCamera(pointer, camera);
+
+//   const intersects = raycaster.intersectObjects(scene.children, true);
+
+//   if (intersects.length > 0) {
+//     const firstIntersect = intersects[0];
+//     if (
+//       firstIntersect.object.material &&
+//       firstIntersect.object.material.color
+//     ) {
+//       firstIntersect.object.material.color.set(0x00ff00); // Highlight in green
+//     }
+//     gsap.to(camera.position, {
+//       x: firstIntersect.point.x,
+//       y: firstIntersect.point.y,
+//       z: firstIntersect.point.z,
+//       duration: 1,
+//     });
+//   }
+// });
+
 const gui = new GUI();
 const settings = {
   lightIntensity: 0,
   shoeX: 0,
   shoeY: 0,
   shoeZ: 0,
-  rotationSpeed: 0.01,
+  rotationSpeed: 0,
 };
 
 gui
@@ -134,10 +255,11 @@ camera.position.y = 3;
 function animate() {
   requestAnimationFrame(animate);
 
-  shoe.rotation.y += settings.rotationSpeed;
+  // shoe.rotation.y += settings.rotationSpeed;
 
   controls.update(); // Required if damping is enabled
   renderer.render(scene, camera);
+  raycaster.setFromCamera(pointer, camera);
 }
 
 // Handle window resizing
