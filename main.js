@@ -31,14 +31,14 @@ controls.enableRotate = true;
 controls.maxPolarAngle = Math.PI / 2; // Adjust this value as needed
 controls.minPolarAngle = Math.PI / 4; // Adjust this value as needed
 // Disable x-axis (horizontal) movement
-controls.maxAzimuthAngle = 0; // Lock horizontal rotation
-controls.minAzimuthAngle = 0; // Lock horizontal rotation
+// controls.maxAzimuthAngle = 0; // Lock horizontal rotation
+// controls.minAzimuthAngle = 0; // Lock horizontal rotation
 //limit z-axis movement
 controls.minDistance = 6; // Adjust this value as needed
 controls.maxDistance = 10; // Adjust this value as needed
 // Adjust movement speed
-controls.rotateSpeed = 0.2; // Lower value for slower rotation
-controls.zoomSpeed = 0.2; // Lower value for slower zoom
+controls.rotateSpeed = 0.3; // Lower value for slower rotation
+controls.zoomSpeed = 0.3; // Lower value for slower zoom
 
 // Add ambientlighting
 const ambientLight = new THREE.AmbientLight(0x404040, 1.5); // Soft white light
@@ -104,13 +104,13 @@ loader.load(
     shoe.rotation.y = Math.PI / -2;
 
     // add on click shoe movement turns around
-    let previousMouseX = 0;
-    document.addEventListener("mousemove", (event) => {
-      if (isDragging) {
-        const movementX = event.movementX || 0;
-        shoe.rotation.y += (movementX * Math.PI) / 180 / 4;
-      }
-    });
+    // let previousMouseX = 0;
+    // document.addEventListener("mousemove", (event) => {
+    //   if (isDragging) {
+    //     const movementX = event.movementX || 0;
+    //     shoe.rotation.y += (movementX * Math.PI) / 180 / 4;
+    //   }
+    // });
   },
 
   undefined,
@@ -288,6 +288,30 @@ window.addEventListener("mousemove", (event) => {
 //   }
 // });
 
+function styleNavChildren() {
+  const nav = document.querySelector(".nav");
+  const children = nav.children;
+  for (let i = 0; i < children.length; i++) {
+    children[i].style.opacity = "0.5";
+    children[i].style.fontWeight = "normal";
+  }
+}
+
+function animateCamera(position, targetClass) {
+  gsap.to(camera.position, {
+    x: position.x,
+    y: position.y,
+    z: position.z,
+    duration: 1,
+    onUpdate: () => {
+      camera.lookAt(new THREE.Vector3(position.x, position.y, position.z));
+    },
+  });
+  styleNavChildren();
+  document.querySelector(targetClass).style.opacity = "1";
+  document.querySelector(targetClass).style.fontWeight = "bold";
+}
+
 window.addEventListener("click", (event) => {
   // Get the mouse coordinates in normalized device coordinates
   const rect = renderer.domElement.getBoundingClientRect();
@@ -304,23 +328,54 @@ window.addEventListener("click", (event) => {
     const firstIntersect = intersects[0];
     const intersectedObject = firstIntersect.object;
 
-    // Check if the intersected object has a name (e.g., 'laces')
-    if (intersectedObject.name === "laces") {
-      const targetPosition = new THREE.Vector3();
-      targetPosition.copy(firstIntersect.point); // Target is the clicked point
-
-      // Animate the camera to move closer to the target
-      gsap.to(camera.position, {
-        x: targetPosition.x + -5, // Adjust offsets as needed
-        y: targetPosition.y + 2,
-        z: targetPosition.z + 1,
-        duration: 1,
-        onUpdate: () => {
-          camera.lookAt(targetPosition); // Make the camera focus on the target
-        },
-      });
+    // Check if the intersected object has a name and animate the camera accordingly
+    switch (intersectedObject.name) {
+      case "laces":
+        animateCamera({ x: -9, y: 9, z: 2 }, ".laces");
+        break;
+      case "outside_1":
+        animateCamera({ x: -2, y: 6, z: 4 }, ".outside_1");
+        break;
+      case "outside_2":
+        animateCamera({ x: 3, y: 6, z: 4 }, ".outside_2");
+        break;
+      case "outside_3":
+        animateCamera({ x: -6, y: 5.5, z: 3 }, ".outside_3");
+        break;
+      case "inside":
+        animateCamera({ x: -6, y: 7, z: 3 }, ".inside");
+        break;
+      case "sole_bottom":
+        animateCamera({ x: -2, y: 0, z: 6 }, ".sole_bottom");
+        break;
+      case "sole_top":
+        animateCamera({ x: -6, y: 5, z: 6 }, ".sole_top");
+        break;
     }
   }
+});
+
+// Add event listeners to the navigation buttons
+document.getElementById("laces").addEventListener("click", () => {
+  animateCamera({ x: -9, y: 9, z: 2 }, ".laces");
+});
+document.getElementById("outside_1").addEventListener("click", () => {
+  animateCamera({ x: -2, y: 6, z: 4 }, ".outside_1");
+});
+document.getElementById("outside_2").addEventListener("click", () => {
+  animateCamera({ x: 3, y: 6, z: 4 }, ".outside_2");
+});
+document.getElementById("outside_3").addEventListener("click", () => {
+  animateCamera({ x: -6, y: 5.5, z: 3 }, ".outside_3");
+});
+document.getElementById("inside").addEventListener("click", () => {
+  animateCamera({ x: -6, y: 7, z: 3 }, ".inside");
+});
+document.getElementById("sole_bottom").addEventListener("click", () => {
+  animateCamera({ x: -2, y: 0, z: 6 }, ".sole_bottom");
+});
+document.getElementById("sole_top").addEventListener("click", () => {
+  animateCamera({ x: -6, y: 5, z: 6 }, ".sole_top");
 });
 
 const gui = new GUI();
