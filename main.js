@@ -3,6 +3,7 @@ import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { GUI } from "dat.gui";
+import gsap from "gsap";
 
 import "./style.css";
 
@@ -20,11 +21,24 @@ renderer.setClearColor(0xeeeeee); // Light gray background
 renderer.shadowMap.enabled = true;
 document.body.appendChild(renderer.domElement);
 
-// Set up OrbitControls
+//Set up OrbitControls
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true; // Smooth deceleration
 controls.dampingFactor = 0.25;
 controls.enableZoom = true;
+controls.enableRotate = true;
+// Limit y-axis (vertical) movement
+controls.maxPolarAngle = Math.PI / 2; // Adjust this value as needed
+controls.minPolarAngle = Math.PI / 4; // Adjust this value as needed
+// Disable x-axis (horizontal) movement
+controls.maxAzimuthAngle = 0; // Lock horizontal rotation
+controls.minAzimuthAngle = 0; // Lock horizontal rotation
+//limit z-axis movement
+controls.minDistance = 6; // Adjust this value as needed
+controls.maxDistance = 10; // Adjust this value as needed
+// Adjust movement speed
+controls.rotateSpeed = 0.2; // Lower value for slower rotation
+controls.zoomSpeed = 0.2; // Lower value for slower zoom
 
 // Add ambientlighting
 const ambientLight = new THREE.AmbientLight(0x404040, 1.5); // Soft white light
@@ -55,6 +69,17 @@ scene.add(backgroundSphere);
 
 // add shoe.glb
 let shoe;
+const shoeMeshes = [];
+let isDragging = false;
+
+document.addEventListener("mousedown", (event) => {
+  isDragging = true;
+  previousMouseX = event.clientX;
+});
+
+document.addEventListener("mouseup", () => {
+  isDragging = false;
+});
 
 const loader = new GLTFLoader();
 loader.load(
@@ -71,19 +96,74 @@ loader.load(
       }
     });
     shoe = gltf.scene;
-    shoe.position.y = 0;
+    shoe.position.y = 2;
     shoe.scale.set(1, 1, 1);
     shoe.castShadow = true;
     shoe.receiveShadow = true;
     scene.add(shoe);
     shoe.rotation.y = Math.PI / -2;
+
+    // add on click shoe movement turns around
+    let previousMouseX = 0;
+    document.addEventListener("mousemove", (event) => {
+      if (isDragging) {
+        const movementX = event.movementX || 0;
+        shoe.rotation.y += (movementX * Math.PI) / 180 / 4;
+      }
+    });
   },
+
   undefined,
   (error) => {
     console.error("An error occurred while loading the model:", error);
   }
 );
 
+//change color function
+function onColorOptionClick(event) {
+  const selectedColor = new THREE.Color(
+    parseInt(event.target.dataset.color, 16)
+  );
+  // Apply the selected color to the entire shoe
+  if (selectedPart) {
+    switch (selectedPart.name) {
+      case "Laces":
+        customizationData.lacesColor = selectedColor;
+        break;
+      case "Sole bottom":
+        customizationData.soleBottomColor = selectedColor;
+        break;
+      case "sole top":
+        customizationData.soleTopColor = selectedColor;
+        break;
+      case "Lining":
+        customizationData.liningColor = selectedColor;
+        break;
+      case "Front part":
+        customizationData.frontPartColor = selectedColor;
+        break;
+      case "Upper part":
+        customizationData.upperPartColor = selectedColor;
+        break;
+      case "Body":
+        customizationData.bodyColor = selectedColor;
+        break;
+
+      // Add cases for other parts as needed
+    }
+    if (selectedPart.material) {
+      selectedPart.material.color.copy(selectedColor);
+      partColors.set(selectedPart.uuid, selectedColor);
+    }
+
+    // Add or remove the 'selected' class based on the selected color
+    const selectedBox = document.querySelector(".box.selected");
+    if (selectedBox) {
+      selectedBox.classList.remove("selected");
+    }
+    event.target.classList.add("selected");
+  }
+}
 //make a raycaster
 const raycaster = new THREE.Raycaster();
 const pointer = new THREE.Vector2();
@@ -111,6 +191,7 @@ const pointer = new THREE.Vector2();
 //     );
 //   }
 // });
+// add a mouse click event with a gsap animation to move the camera to the clicked object for every object
 
 // Store original colors of the objects
 scene.children.forEach((child) => {
@@ -183,7 +264,6 @@ window.addEventListener("mousemove", (event) => {
   }
 });
 
-// window.addEventListener("mousemove", (event) => {
 //   pointer.x = (event.clientX / window.innerWidth) * 2 - 1;
 //   pointer.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
@@ -207,6 +287,41 @@ window.addEventListener("mousemove", (event) => {
 //     });
 //   }
 // });
+
+window.addEventListener("click", (event) => {
+  // Get the mouse coordinates in normalized device coordinates
+  const rect = renderer.domElement.getBoundingClientRect();
+  pointer.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+  pointer.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+
+  // Update the raycaster with the pointer and camera
+  raycaster.setFromCamera(pointer, camera);
+
+  // Get intersected objects
+  const intersects = raycaster.intersectObjects(scene.children, true);
+
+  if (intersects.length > 0) {
+    const firstIntersect = intersects[0];
+    const intersectedObject = firstIntersect.object;
+
+    // Check if the intersected object has a name (e.g., 'laces')
+    if (intersectedObject.name === "laces") {
+      const targetPosition = new THREE.Vector3();
+      targetPosition.copy(firstIntersect.point); // Target is the clicked point
+
+      // Animate the camera to move closer to the target
+      gsap.to(camera.position, {
+        x: targetPosition.x + -5, // Adjust offsets as needed
+        y: targetPosition.y + 2,
+        z: targetPosition.z + 1,
+        duration: 1,
+        onUpdate: () => {
+          camera.lookAt(targetPosition); // Make the camera focus on the target
+        },
+      });
+    }
+  }
+});
 
 const gui = new GUI();
 const settings = {

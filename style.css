@@ -13,7 +13,6 @@ body {
 .customise {
   position: absolute;
   width: 100vw;
-  height: 35vh; /* Fixed typo: 'hw' changed to 'vh' */
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -21,14 +20,14 @@ body {
   background-color: black;
   gap: 40px;
   bottom: 0;
-  padding: 20px 200px;
+  padding: 20px 20px;
 }
 
 .nav {
   display: flex;
   justify-content: space-between;
   width: 100%;
-  padding: 0 300px;
+  padding: 0 20px;
 }
 
 .nav a {
@@ -38,6 +37,8 @@ body {
 .options {
   display: flex;
   justify-content: space-between;
+  flex-direction: column;
+  gap: 20px;
   width: 100%;
   padding: 0 20px;
 }
@@ -49,6 +50,11 @@ body {
   justify-content: center;
   align-items: center;
   gap: 30px;
+}
+
+h2 {
+  font-size: medium;
+  margin-bottom: -10px;
 }
 
 .colorOption,
@@ -83,4 +89,42 @@ body {
   text-decoration: none;
   color: black;
   font-weight: 900;
+}
+
+.box,
+.box-fabric {
+  display: inline-block;
+  width: 3em;
+  height: 3em;
+}
+
+[data-color="922b3e"] {
+  background-color: 922b3e;
+}
+[data-color="000000"] {
+  background-color: 000000;
+  border: #03f100;
+}
+[data-color="blue"] {
+  background-color: blue;
+}
+
+@media (min-width: 800px) {
+  .nav {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0 100px;
+  }
+  .customise {
+    padding: 20px 100px;
+  }
+  .options {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    gap: 200px;
+    width: 100%;
+    padding: 0 20px;
+  }
 }
