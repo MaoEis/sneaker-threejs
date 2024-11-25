@@ -63,7 +63,7 @@ h2 {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   gap: 20px;
   font-size: small;
 }
@@ -75,7 +75,6 @@ h2 {
 
 .btn {
   background-color: #03f100;
-  color: #f5f5f5;
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
@@ -83,10 +82,11 @@ h2 {
   position: absolute;
   top: 40px;
   right: 40px;
+  transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
 .btn:hover {
-  padding: 12px 22px;
+  transform: scale(1.2);
 }
 
 .btn a {
@@ -111,6 +111,44 @@ h2 {
 [data-color="3498db"] {
   background-color: rgb(28, 73, 187);
 }
+[data-color="000000"] {
+  background-color: #000000;
+  border: 1px solid #f4f4f4;
+}
+[data-color="ffffff"] {
+  background-color: #ffffff;
+}
+
+#leatherFabric {
+  background-image: url("/public/fabric/leather.jpg");
+  background-position: center;
+}
+
+#denimFabric {
+  background-image: url("/public/fabric/denimNorm.jpg");
+  background-position: center;
+}
+#metalLeatherFabricc {
+  background-image: url("/public/fabric/metalColor.jpg");
+  background-position: center;
+}
+#velvetFabric {
+  background-image: url("/public/fabric/velvet.png");
+  background-position: center;
+}
+#polyesterFabric {
+  background-image: url("/public/fabric/polyesterNorm.png");
+  background-position: center;
+}
+
+.box:active,
+.box-fabric:active {
+  border: 2px solid #68ff47;
+}
+.box.selected,
+.box-fabric.selected {
+  border: 2px solid #68ff47;
+}
 
 @media (min-width: 800px) {
   .nav {
@@ -129,5 +167,21 @@ h2 {
     gap: 200px;
     width: 100%;
     padding: 0 20px;
+  }
+
+  .sizeOptions {
+    display: flex;
+    gap: 20px;
+    justify-content: baseline;
+    align-items: baseline;
+    font-size: medium;
+    font-weight: 900;
+    margin-bottom: -10px;
+  }
+
+  #size {
+    font-size: medium;
+    margin-bottom: -10px;
+    width: 200px;
   }
 }
