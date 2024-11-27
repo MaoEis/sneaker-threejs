@@ -374,54 +374,89 @@ document.querySelectorAll(".fabricOption .box-fabric").forEach((box) => {
           ),
         };
         break;
+      case "velvet":
+        selectedFabric = {
+          texture: new THREE.TextureLoader().load("/fabric/velvet.png", () => {
+            console.log("Velvet texture loaded");
+          }),
+          normalMap: new THREE.TextureLoader().load(
+            "/fabric/velvetNorm.png",
+            () => {
+              console.log("Velvet normal map loaded");
+            }
+          ),
+          roughnessMap: new THREE.TextureLoader().load(
+            "/fabric/velvetRough.png",
+            () => {
+              console.log("Velvet roughness map loaded");
+            }
+          ),
+          envMap: new THREE.TextureLoader().load(
+            "/fabric/velvetMetal.png",
+            () => {
+              console.log("Velvet env map loaded");
+            }
+          ),
+        };
+        break;
       case "denim":
         selectedFabric = {
           texture: new THREE.TextureLoader().load("/fabric/denim.jpg", () => {
-            console.log("denim texture loaded");
+            console.log("Denim texture loaded");
           }),
           normalMap: new THREE.TextureLoader().load(
             "/fabric/denimNorm.jpg",
             () => {
-              console.log("denim normal map loaded");
+              console.log("Denim normal map loaded");
             }
           ),
           roughnessMap: new THREE.TextureLoader().load(
             "/fabric/denimSpec.jpg",
             () => {
-              console.log("denim roughness map loaded");
+              console.log("Denim roughness map loaded");
             }
           ),
           envMap: new THREE.TextureLoader().load("/fabric/denimOcc.jpg", () => {
-            console.log("denim env map loaded");
+            console.log("Denim env map loaded");
           }),
         };
         break;
       case "polyester":
         selectedFabric = {
           texture: new THREE.TextureLoader().load(
-            "/fabric/polyester.jpg",
+            "/fabric/polyester.png",
             () => {
-              console.log("denim texture loaded");
+              console.log("Polyester texture loaded");
             }
           ),
           normalMap: new THREE.TextureLoader().load(
-            "/fabric/polyesterNorm.jpg",
+            "/fabric/polyesterNorm.png",
             () => {
-              console.log("denim normal map loaded");
+              console.log("Polyester normal map loaded");
             }
           ),
-          roughnessMap: new THREE.TextureLoader().load(
-            "/fabric/denimSpec.jpg",
-            () => {
-              console.log("denim roughness map loaded");
-            }
-          ),
-          envMap: new THREE.TextureLoader().load("/fabric/denimOcc.jpg", () => {
-            console.log("denim env map loaded");
-          }),
+          roughnessMap: null,
+          envMap: null,
         };
         break;
-      // Add more cases for other fabrics
+      case "metal":
+        selectedFabric = {
+          texture: new THREE.TextureLoader().load(
+            "/fabric/metalColor.jpg",
+            () => {
+              console.log("Metal texture loaded");
+            }
+          ),
+          normalMap: new THREE.TextureLoader().load(
+            "/fabric/metalColor.jpg",
+            () => {
+              console.log("Metal normal map loaded");
+            }
+          ),
+          roughnessMap: null,
+          envMap: null,
+        };
+        break;
     }
     if (selectedShoePart) {
       console.log(`Applying fabric to ${selectedShoePart.name}`);
@@ -431,10 +466,14 @@ document.querySelectorAll(".fabricOption .box-fabric").forEach((box) => {
 });
 
 function applyFabricToShoePart(shoePart, fabric) {
+  if (!fabric.texture) {
+    console.error("Fabric texture is not loaded");
+    return;
+  }
   shoePart.material.map = fabric.texture;
-  shoePart.material.normalMap = fabric.normalMap;
-  shoePart.material.roughnessMap = fabric.roughnessMap;
-  shoePart.material.envMap = fabric.envMap;
+  shoePart.material.normalMap = fabric.normalMap || null;
+  shoePart.material.roughnessMap = fabric.roughnessMap || null;
+  shoePart.material.envMap = fabric.envMap || null;
   shoePart.material.needsUpdate = true;
 }
 // Position the camera
