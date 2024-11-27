@@ -58,8 +58,9 @@ scene.add(dirLight);
 const backgroundSphere = new THREE.Mesh(
   new THREE.SphereGeometry(500, 60, 40),
   new THREE.MeshBasicMaterial({
-    map: new THREE.TextureLoader().load("backgroundcolours.png"),
+    map: new THREE.TextureLoader().load("backgroundfour.png"),
     side: THREE.BackSide,
+    opacity: 0.3,
   })
 );
 scene.add(backgroundSphere);
@@ -79,17 +80,15 @@ loader.load(
     shoe.receiveShadow = true;
     shoe.rotation.y = Math.PI / -2;
 
-    const leatherTexture = new THREE.TextureLoader().load(
-      "/fabrics/leather.jpg"
-    );
+    const leatherTexture = new THREE.TextureLoader().load("fabric/leather.jpg");
     const leatherNormal = new THREE.TextureLoader().load(
-      "/fabrics/leatherNorm.jpg"
+      "fabric/leatherNorm.jpg"
     );
     const leatherReflect = new THREE.TextureLoader().load(
-      "/fabrics/leatherReflect.jpg"
+      "fabric/leatherReflect.jpg"
     );
     const leatherGloss = new THREE.TextureLoader().load(
-      "/fabrics/leatherGloss.jpg"
+      "fabric/leatherGloss.jpg"
     );
     leatherTexture.wrapS = THREE.RepeatWrapping;
     leatherTexture.wrapT = THREE.RepeatWrapping;
@@ -248,6 +247,8 @@ document.querySelectorAll(".colorOption .box").forEach((box) => {
 });
 
 let lastSelectedObject = null;
+let selectedShoePart = null;
+let selectedFabric = null;
 
 window.addEventListener("click", (event) => {
   // Get the mouse coordinates in normalized device coordinates
@@ -277,6 +278,20 @@ window.addEventListener("click", (event) => {
     if (shoeParts.includes(intersectedObject.name)) {
       // Set the last selected object
       lastSelectedObject = intersectedObject;
+      selectedShoePart = intersectedObject;
+
+      // if (selectedFabric) {
+      //   console.log(`Applying fabric to ${intersectedObject.name}`);
+      //   applyFabricToShoePart(intersectedObject, selectedFabric);
+      // }
+      // if (selectedFabric) {
+      //   console.log(`Applying fabric to ${intersectedObject.name}`);
+      //   intersectedObject.material.map = selectedFabric.texture;
+      //   intersectedObject.material.normalMap = selectedFabric.normalMap;
+      //   intersectedObject.material.roughnessMap = selectedFabric.roughnessMap;
+      //   intersectedObject.material.envMap = selectedFabric.envMap;
+      //   intersectedObject.material.needsUpdate = true;
+      // }
 
       // Check if the intersected object has a name and animate the camera accordingly
       switch (intersectedObject.name) {
@@ -328,6 +343,100 @@ document.getElementById("sole_top").addEventListener("click", () => {
   animateCamera({ x: -6, y: 5, z: 6 }, ".sole_top");
 });
 
+document.querySelectorAll(".fabricOption .box-fabric").forEach((box) => {
+  box.addEventListener("click", (event) => {
+    console.log("Window clicked");
+    const fabricType = event.target.getAttribute("data-fabric");
+
+    switch (fabricType) {
+      case "leather":
+        selectedFabric = {
+          texture: new THREE.TextureLoader().load("/fabric/leather.jpg", () => {
+            console.log("Leather texture loaded");
+          }),
+          normalMap: new THREE.TextureLoader().load(
+            "/fabric/leatherNorm.jpg",
+            () => {
+              console.log("Leather normal map loaded");
+            }
+          ),
+          roughnessMap: new THREE.TextureLoader().load(
+            "/fabric/leatherGloss.jpg",
+            () => {
+              console.log("Leather roughness map loaded");
+            }
+          ),
+          envMap: new THREE.TextureLoader().load(
+            "/fabric/leatherReflect.jpg",
+            () => {
+              console.log("Leather env map loaded");
+            }
+          ),
+        };
+        break;
+      case "denim":
+        selectedFabric = {
+          texture: new THREE.TextureLoader().load("/fabric/denim.jpg", () => {
+            console.log("denim texture loaded");
+          }),
+          normalMap: new THREE.TextureLoader().load(
+            "/fabric/denimNorm.jpg",
+            () => {
+              console.log("denim normal map loaded");
+            }
+          ),
+          roughnessMap: new THREE.TextureLoader().load(
+            "/fabric/denimSpec.jpg",
+            () => {
+              console.log("denim roughness map loaded");
+            }
+          ),
+          envMap: new THREE.TextureLoader().load("/fabric/denimOcc.jpg", () => {
+            console.log("denim env map loaded");
+          }),
+        };
+        break;
+      case "polyester":
+        selectedFabric = {
+          texture: new THREE.TextureLoader().load(
+            "/fabric/polyester.jpg",
+            () => {
+              console.log("denim texture loaded");
+            }
+          ),
+          normalMap: new THREE.TextureLoader().load(
+            "/fabric/polyesterNorm.jpg",
+            () => {
+              console.log("denim normal map loaded");
+            }
+          ),
+          roughnessMap: new THREE.TextureLoader().load(
+            "/fabric/denimSpec.jpg",
+            () => {
+              console.log("denim roughness map loaded");
+            }
+          ),
+          envMap: new THREE.TextureLoader().load("/fabric/denimOcc.jpg", () => {
+            console.log("denim env map loaded");
+          }),
+        };
+        break;
+      // Add more cases for other fabrics
+    }
+    if (selectedShoePart) {
+      console.log(`Applying fabric to ${selectedShoePart.name}`);
+      applyFabricToShoePart(selectedShoePart, selectedFabric);
+    }
+  });
+});
+
+function applyFabricToShoePart(shoePart, fabric) {
+  shoePart.material.map = fabric.texture;
+  shoePart.material.normalMap = fabric.normalMap;
+  shoePart.material.roughnessMap = fabric.roughnessMap;
+  shoePart.material.envMap = fabric.envMap;
+  shoePart.material.needsUpdate = true;
+}
 // Position the camera
 camera.position.z = 10;
 camera.position.y = 3;
@@ -335,12 +444,13 @@ camera.position.y = 3;
 // Rotate the cube and update controls
 function animate() {
   requestAnimationFrame(animate);
-
+  backgroundSphere.rotation.y += 0.001;
+  backgroundSphere.rotation.x += 0.001;
   controls.update(); // Required if damping is enabled
   renderer.render(scene, camera);
   raycaster.setFromCamera(pointer, camera);
   //set camera to look at the shoe
-  camera.lookAt(shoe.position);
+  // camera.lookAt(shoe.position);
 }
 
 // Handle window resizing
