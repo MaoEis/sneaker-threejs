@@ -509,6 +509,12 @@ function addInitialsToOutside2(text) {
     return;
   }
 
+  // Remove previous engraving if it exists
+  const previousEngraving = outside2Part.getObjectByName("engravingText");
+  if (previousEngraving) {
+    outside2Part.remove(previousEngraving);
+  }
+
   const fontLoader = new FontLoader();
   fontLoader.load(
     "https://threejs.org/examples/fonts/helvetiker_bold.typeface.json",
@@ -524,6 +530,7 @@ function addInitialsToOutside2(text) {
 
       const textMaterial = new THREE.MeshStandardMaterial({ color: 0x000000 });
       const textMesh = new THREE.Mesh(textGeometry, textMaterial);
+      textMesh.name = "engravingText";
 
       const boundingBox = new THREE.Box3().setFromObject(outside2Part);
       const size = new THREE.Vector3();

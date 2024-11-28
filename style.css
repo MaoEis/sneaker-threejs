@@ -184,13 +184,27 @@ h2 {
 }
 
 .engrave {
-  padding: 30px;
+  padding: 10px;
   font-weight: 900;
   display: none;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 20px;
+}
+
+#engraveButton {
+  background-color: #03f100;
+  padding: 5px 10px;
+  font-weight: 900;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+#engraveButton:hover {
+  transform: scale(1.2);
 }
 
 #engraveText {
