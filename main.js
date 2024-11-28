@@ -252,6 +252,11 @@ let lastSelectedObject = null;
 let selectedShoePart = null;
 let selectedFabric = null;
 
+function toggleDivs() {
+  engravingDiv.style.display = "none";
+  optionsDiv.style.display = "flex";
+}
+
 window.addEventListener("click", (event) => {
   // Get the mouse coordinates in normalized device coordinates
   const rect = renderer.domElement.getBoundingClientRect();
@@ -286,24 +291,31 @@ window.addEventListener("click", (event) => {
       switch (intersectedObject.name) {
         case "laces":
           animateCamera({ x: -9, y: 9, z: 2 }, ".laces");
+          toggleDivs();
           break;
         case "outside_1":
           animateCamera({ x: -2, y: 6, z: 4 }, ".outside_1");
+          toggleDivs();
           break;
         case "outside_2":
           animateCamera({ x: 3, y: 6, z: 4 }, ".outside_2");
+          toggleDivs();
           break;
         case "outside_3":
           animateCamera({ x: -6, y: 5.5, z: 3 }, ".outside_3");
+          toggleDivs();
           break;
         case "inside":
           animateCamera({ x: -6, y: 7, z: 3 }, ".inside");
+          toggleDivs();
           break;
         case "sole_bottom":
           animateCamera({ x: -2, y: 0, z: 6 }, ".sole_bottom");
+          toggleDivs();
           break;
         case "sole_top":
           animateCamera({ x: -6, y: 5, z: 6 }, ".sole_top");
+          toggleDivs();
           break;
       }
     }
@@ -469,27 +481,40 @@ function applyFabricToShoePart(shoePart, fabric) {
 camera.position.z = 10;
 camera.position.y = 3;
 
+const engraveLink = document.querySelector(".engraving");
+const otherLinks = document.querySelectorAll(".nav a:not(.engraving)");
+const engravingDiv = document.querySelector(".engrave");
+const optionsDiv = document.querySelector(".options");
+const engraveInput = document.getElementById("engraveText");
+const engraveButton = document.getElementById("engraveButton");
+
 document.addEventListener("DOMContentLoaded", () => {
-  const engraveLink = document.querySelector(".engraving");
-  const otherLinks = document.querySelectorAll(".nav a:not(.engraving)");
-  const engravingDiv = document.querySelector(".engrave");
-  const optionsDiv = document.querySelector(".options");
-  const engraveInput = document.getElementById("engraveText");
-  const engraveButton = document.getElementById("engraveButton");
+  function styleNavChildren(targetClass) {
+    const nav = document.querySelector(".nav");
+    const children = nav.children;
+    for (let i = 0; i < children.length; i++) {
+      children[i].style.opacity = "0.5";
+      children[i].style.fontWeight = "normal";
+    }
+    document.querySelector(targetClass).style.opacity = "1";
+    document.querySelector(targetClass).style.fontWeight = "bold";
+  }
 
   engraveLink.addEventListener("click", (event) => {
     event.preventDefault();
     console.log("Engrave link clicked");
     engravingDiv.style.display = "flex";
     optionsDiv.style.display = "none";
+    styleNavChildren(".engraving");
+    animateCamera({ x: 1.5, y: 6, z: 3.5 }, ".engraving");
   });
 
   otherLinks.forEach((link) => {
     link.addEventListener("click", (event) => {
       event.preventDefault();
       console.log("Other link clicked");
-      engravingDiv.style.display = "none";
-      optionsDiv.style.display = "flex";
+      toggleDivs();
+      styleNavChildren(`.${event.target.className}`);
     });
   });
 
