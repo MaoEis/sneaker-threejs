@@ -10,7 +10,6 @@
     <div id="app"></div>
     <div class="customise">
       <div class="nav">
-        <a href="#">←</a>
         <a class="sole_bottom" id="sole_bottom" href="#">SOLE BOTTOM</a>
         <a class="sole_top" id="sole_top" href="#">SOLE TOP</a>
         <a class="laces" id="laces" href="#">LACES</a>
@@ -18,8 +17,7 @@
         <a class="outside_2" id="outside_2" href="#">OUTSIDE BACK</a>
         <a class="outside_3" id="outside_3" href="#">MIDDLE</a>
         <a class="inside" id="inside" href="#">INSIDE</a>
-        <a href="#">ENGRAVE</a>
-        <a href="#">→</a>
+        <a class="engraving" href="#">ENGRAVE</a>
       </div>
       <div class="options">
         <div class="colour">
@@ -58,7 +56,7 @@
               <div class="box-fabric denim" id="denimFabric" data-fabric="denim"></div>
               <p>Denim</p>
             </div>
-            <div class="fabric-container metal-leather-container">
+            <!-- <div class="fabric-container metal-leather-container">
               <div
                 class="box-fabric metal-leather"
                 id="metalLeatherFabric"
@@ -72,9 +70,14 @@
             <div class="fabric-container polyester-container">
               <div class="box-fabric polyester" id="polyesterFabric"></div>
               <p>polyester</p>
-            </div>
+            </div> -->
           </div>
         </div>  
+      </div>
+      <div class="engrave">
+        <label for="engraveText">TEXT YOU WANT TO ENGRAVE:</label>
+        <input type="text" id="engraveText" maxlength="10" placeholder="Max 10 chars">
+        <!-- <button id="engraveButton">ENGRAVE</button> -->
       </div>
       <div class="sizeOptions">
         <label for="size">SIZE</label>
@@ -91,6 +94,10 @@
       </div>
     </div>
     <div class="btn"><a href="#">ORDER</a></div>
+    </div>
+    <div class="succes">
+      <button class="close-btn">&times;</button>
+      <h1>ORDER COMPLETED</h1>
     </div>
     <script type="module" src="/main.js"></script>
   </body>

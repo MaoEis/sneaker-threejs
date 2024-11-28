@@ -280,19 +280,6 @@ window.addEventListener("click", (event) => {
       lastSelectedObject = intersectedObject;
       selectedShoePart = intersectedObject;
 
-      // if (selectedFabric) {
-      //   console.log(`Applying fabric to ${intersectedObject.name}`);
-      //   applyFabricToShoePart(intersectedObject, selectedFabric);
-      // }
-      // if (selectedFabric) {
-      //   console.log(`Applying fabric to ${intersectedObject.name}`);
-      //   intersectedObject.material.map = selectedFabric.texture;
-      //   intersectedObject.material.normalMap = selectedFabric.normalMap;
-      //   intersectedObject.material.roughnessMap = selectedFabric.roughnessMap;
-      //   intersectedObject.material.envMap = selectedFabric.envMap;
-      //   intersectedObject.material.needsUpdate = true;
-      // }
-
       // Check if the intersected object has a name and animate the camera accordingly
       switch (intersectedObject.name) {
         case "laces":
@@ -479,6 +466,20 @@ function applyFabricToShoePart(shoePart, fabric) {
 // Position the camera
 camera.position.z = 10;
 camera.position.y = 3;
+
+document.addEventListener("DOMContentLoaded", () => {
+  const orderBtn = document.querySelector(".btn");
+  const succes = document.querySelector(".succes");
+
+  orderBtn.addEventListener("click", (event) => {
+    event.preventDefault();
+    succes.style.display = "flex";
+    optionsDiv.style.display = "none";
+  });
+});
+document.querySelector(".close-btn").addEventListener("click", function () {
+  document.querySelector(".succes").style.display = "none";
+});
 
 // Rotate the cube and update controls
 function animate() {

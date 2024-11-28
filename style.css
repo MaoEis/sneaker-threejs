@@ -10,6 +10,31 @@ body {
   /* position: relative; */
 }
 
+.succes {
+  position: fixed;
+  height: 100vh;
+  width: 100vw;
+  background-color: #03f100;
+  color: #000000;
+  z-index: 99999;
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+
+.close-btn {
+  position: absolute;
+  top: 20px;
+  left: 40px;
+  font-size: 60px;
+  cursor: pointer;
+  height: 30px;
+  width: 30px;
+  background-color: #03f100;
+  color: #000000;
+  border: none;
+}
+
 .customise {
   position: absolute;
   width: 100vw;
@@ -42,6 +67,7 @@ body {
   gap: 20px;
   width: 100%;
   padding: 0 20px;
+  z-index: 9999;
 }
 
 .colour,
@@ -150,6 +176,25 @@ h2 {
   border: 2px solid #68ff47;
 }
 
+.engrave {
+  padding: 30px;
+  font-weight: 900;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+#engraveText {
+  width: 200px;
+  height: 25px;
+  border: 1px solid #f4f4f4;
+  border-radius: 5px;
+  padding: 10px;
+  border: 3px solid #68ff47;
+}
+
 @media (min-width: 800px) {
   .nav {
     display: flex;
@@ -183,5 +228,7 @@ h2 {
     font-size: medium;
     margin-bottom: -10px;
     width: 200px;
+    border-radius: 5px;
+    height: 25px;
   }
 }
