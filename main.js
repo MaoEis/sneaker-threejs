@@ -2,6 +2,8 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+import { FontLoader } from "three/examples/jsm/loaders/FontLoader.js";
+import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry.js";
 import { GUI } from "dat.gui";
 import gsap from "gsap";
 
@@ -466,6 +468,79 @@ function applyFabricToShoePart(shoePart, fabric) {
 // Position the camera
 camera.position.z = 10;
 camera.position.y = 3;
+
+document.addEventListener("DOMContentLoaded", () => {
+  const engraveLink = document.querySelector(".engraving");
+  const otherLinks = document.querySelectorAll(".nav a:not(.engraving)");
+  const engravingDiv = document.querySelector(".engrave");
+  const optionsDiv = document.querySelector(".options");
+  const engraveInput = document.getElementById("engraveText");
+  const engraveButton = document.getElementById("engraveButton");
+
+  engraveLink.addEventListener("click", (event) => {
+    event.preventDefault();
+    console.log("Engrave link clicked");
+    engravingDiv.style.display = "flex";
+    optionsDiv.style.display = "none";
+  });
+
+  otherLinks.forEach((link) => {
+    link.addEventListener("click", (event) => {
+      event.preventDefault();
+      console.log("Other link clicked");
+      engravingDiv.style.display = "none";
+      optionsDiv.style.display = "flex";
+    });
+  });
+
+  engraveButton.addEventListener("click", () => {
+    const text = engraveInput.value;
+    console.log(`Engraving text: ${text}`);
+    addInitialsToOutside2(text);
+  });
+});
+
+function addInitialsToOutside2(text) {
+  const outside2Part = scene.getObjectByName("outside_2");
+  console.log(outside2Part); // Check if the object is found
+
+  if (!outside2Part) {
+    console.log("Error: Could not find outside_2 part.");
+    return;
+  }
+
+  const fontLoader = new FontLoader();
+  fontLoader.load(
+    "https://threejs.org/examples/fonts/helvetiker_bold.typeface.json",
+    (font) => {
+      console.log("Font loaded successfully");
+
+      const textGeometry = new TextGeometry(text, {
+        font: font,
+        size: 0.3,
+        height: 0.05,
+        curveSegments: 12,
+      });
+
+      const textMaterial = new THREE.MeshStandardMaterial({ color: 0x000000 });
+      const textMesh = new THREE.Mesh(textGeometry, textMaterial);
+
+      const boundingBox = new THREE.Box3().setFromObject(outside2Part);
+      const size = new THREE.Vector3();
+      const center = new THREE.Vector3();
+      boundingBox.getSize(size);
+      boundingBox.getCenter(center);
+      textMesh.rotation.y = Math.PI / 2;
+      textMesh.position.set(center.x + 2.5, center.y - 1.8, center.z - 1.6);
+
+      textMesh.castShadow = true;
+      textMesh.receiveShadow = true;
+
+      outside2Part.add(textMesh);
+      console.log(`Added initials "${text}" to outside_2`);
+    }
+  );
+}
 
 document.addEventListener("DOMContentLoaded", () => {
   const orderBtn = document.querySelector(".btn");
