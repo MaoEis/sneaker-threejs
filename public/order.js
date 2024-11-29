@@ -75,6 +75,7 @@ document.addEventListener("DOMContentLoaded", function () {
       address: document.getElementById("address").value,
       postalCode: parseInt(document.getElementById("postalCode").value, 10),
       city: document.getElementById("city").value,
+      phone: document.getElementById("phone").value,
     };
 
     // Construct the order data dynamically
