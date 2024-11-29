@@ -628,6 +628,9 @@ document.getElementById("engraveButton").addEventListener("click", () => {
   shoeConfig.initials = initials;
 });
 
+
+
+// Handle Order button click
 // Handle Order button click
 document.querySelector(".btn").addEventListener("click", (event) => {
   event.preventDefault();
@@ -646,11 +649,14 @@ document.querySelector(".btn").addEventListener("click", (event) => {
     return;
   }
 
+  // Log the current shoeConfig to the console
+  console.log("Shoe Configuration:", shoeConfig);
+
   // Save the configuration in localStorage
   localStorage.setItem("shoeConfig", JSON.stringify(shoeConfig));
 
   // Redirect to the Vue.js order page
-  window.location.href = "https://frontend-eaoe.onrender.com/order";
+  //window.location.href = "https://frontend-eaoe.onrender.com/order";
 });
 
 
