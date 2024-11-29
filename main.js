@@ -40,20 +40,22 @@ controls.rotateSpeed = 0.3; // Lower value for slower rotation
 controls.zoomSpeed = 0.3; // Lower value for slower zoom
 
 // Add ambientlighting
-const ambientLight = new THREE.AmbientLight(0x404040, 1.5); // Soft white light
+const ambientLight = new THREE.AmbientLight(0x404040, 1); // Soft white light
 scene.add(ambientLight);
 
 //directionallight
-const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-directionalLight.position.set(5, 10, 7.5);
+const directionalLight = new THREE.DirectionalLight(0xffffff, 0.3);
+directionalLight.position.set(-7, 15, 7.5);
 directionalLight.castShadow = true;
 scene.add(directionalLight);
+const lightAxesHelper = new THREE.AxesHelper(5); // 5 is the size of the axes helper
+directionalLight.add(lightAxesHelper);
 
-const hemiLight = new THREE.HemisphereLight(0xffffff, 0x444444, 1.5);
+const hemiLight = new THREE.HemisphereLight(0xffffff, 0x444444, 1.25);
 scene.add(hemiLight);
 
-const dirLight = new THREE.DirectionalLight(0xffffff, 2);
-dirLight.position.set(5, 10, 7.5);
+const dirLight = new THREE.DirectionalLight(0xffffff, 1.75);
+dirLight.position.set(7, 15, 7.5);
 scene.add(dirLight);
 
 // add backgroundphere with space.png
