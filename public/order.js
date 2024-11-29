@@ -75,21 +75,37 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     const orderData = {
-      customer: clientInfo,
-      totalPrice: calculatePrice(),
+      customer: {
+        firstName: "Milana",
+        lastName: "Ismailov",
+        email: "milana_is@hotmail.com",
+        address: "Bijlokstraat",
+        postalCode: 3020,
+        city: "Herent"
+      },
+      totalPrice: 230,
       status: "Pending",
       products: [
         {
-          productId: "1", // Make sure productId is valid
-          colors: shoeConfig.colors, // Ensure colors are properly formatted
-          fabrics: shoeConfig.fabrics, // Ensure fabrics are properly formatted
-          size: shoeConfig.size, // Ensure size is correctly passed
-          price: 220, // Example price, can be dynamic
-          quantity: 1, // Example quantity
-          initials: shoeConfig.initials || "None",  // Set initials to "None" if null
-        },
-      ],
+          productId: "1",
+          colors: {
+            outside_1: "#03f100", // Ensure this is a key-value object
+            outside_2: "#ed18b5"
+          },
+          fabrics: {
+            outside_1: "Leather", // Ensure this is a key-value object
+            outside_2: "Suede"
+          },
+          size: 42,
+          price: 220,
+          quantity: 1,
+          initials: "JD"
+        }
+      ]
     };
+    
+    console.log("Order Data being sent:", orderData); // Log the data being sent
+    
     
     console.log("Order Data: ", orderData); // Log orderData to inspect the request body before sending
     
