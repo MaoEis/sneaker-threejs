@@ -52,7 +52,7 @@ body {
   background-color: black;
   gap: 40px;
   bottom: 0;
-  padding: 20px 20px;
+  padding: 40px 20px;
 }
 
 .nav {
@@ -226,10 +226,12 @@ h2 {
   }
   .customise {
     padding: 50px 100px;
+    padding-bottom: 80px;
   }
   .options {
     display: flex;
     justify-content: center;
+    align-items: baseline;
     flex-direction: row;
     gap: 200px;
     width: 100%;
@@ -238,9 +240,10 @@ h2 {
 
   .sizeOptions {
     display: flex;
+    flex-direction: column;
     gap: 20px;
-    justify-content: baseline;
-    align-items: baseline;
+    justify-content: center;
+    align-items: center;
     font-size: medium;
     font-weight: 900;
     margin-bottom: -10px;
@@ -252,5 +255,6 @@ h2 {
     width: 200px;
     border-radius: 5px;
     height: 25px;
+    text-align: center;
   }
 }
