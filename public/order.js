@@ -81,11 +81,11 @@ document.addEventListener("DOMContentLoaded", function () {
       status: "Pending",
       products: [
         {
-          productId: "shoe123", // Example product ID, should be dynamic
+          productId: "shoe1234", // Example product ID, should be dynamic
           colors: shoeConfig.colors,   // Include colors from the shoeConfig
           fabrics: shoeConfig.fabrics, // Include fabrics from the shoeConfig
           size: shoeConfig.size,      // Include size from the shoeConfig
-          price: 230, // Example price, should be dynamic
+          price: 220, // Example price, should be dynamic
           quantity: 1, // Example quantity
         },
       ],
