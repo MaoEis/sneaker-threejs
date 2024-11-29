@@ -346,31 +346,26 @@ document.getElementById("sole_top").addEventListener("click", () => {
 
 document.querySelectorAll(".fabricOption .box-fabric").forEach((box) => {
   box.addEventListener("click", (event) => {
-    console.log("Window clicked");
     const fabricType = event.target.getAttribute("data-fabric");
 
     switch (fabricType) {
       case "leather":
         selectedFabric = {
           texture: new THREE.TextureLoader().load("/fabric/leather.jpg", () => {
-            console.log("Leather texture loaded");
           }),
           normalMap: new THREE.TextureLoader().load(
             "/fabric/leatherNorm.jpg",
             () => {
-              console.log("Leather normal map loaded");
             }
           ),
           roughnessMap: new THREE.TextureLoader().load(
             "/fabric/leatherGloss.jpg",
             () => {
-              console.log("Leather roughness map loaded");
             }
           ),
           envMap: new THREE.TextureLoader().load(
             "/fabric/leatherReflect.jpg",
             () => {
-              console.log("Leather env map loaded");
             }
           ),
         };
@@ -378,48 +373,36 @@ document.querySelectorAll(".fabricOption .box-fabric").forEach((box) => {
       case "velvet":
         selectedFabric = {
           texture: new THREE.TextureLoader().load("/fabric/velvet.png", () => {
-            console.log("Velvet texture loaded");
           }),
           normalMap: new THREE.TextureLoader().load(
             "/fabric/velvetNorm.png",
             () => {
-              console.log("Velvet normal map loaded");
             }
           ),
           roughnessMap: new THREE.TextureLoader().load(
             "/fabric/velvetRough.png",
             () => {
-              console.log("Velvet roughness map loaded");
             }
           ),
           envMap: new THREE.TextureLoader().load(
             "/fabric/velvetMetal.png",
             () => {
-              console.log("Velvet env map loaded");
             }
           ),
         };
         break;
       case "denim":
         selectedFabric = {
-          texture: new THREE.TextureLoader().load("/fabric/denim.jpg", () => {
-            console.log("Denim texture loaded");
-          }),
+          texture: new THREE.TextureLoader().load("/fabric/denim.jpg", () => {          }),
           normalMap: new THREE.TextureLoader().load(
             "/fabric/denimNorm.jpg",
-            () => {
-              console.log("Denim normal map loaded");
-            }
+            () => {            }
           ),
           roughnessMap: new THREE.TextureLoader().load(
             "/fabric/denimSpec.jpg",
-            () => {
-              console.log("Denim roughness map loaded");
-            }
+            () => {            }
           ),
-          envMap: new THREE.TextureLoader().load("/fabric/denimOcc.jpg", () => {
-            console.log("Denim env map loaded");
-          }),
+          envMap: new THREE.TextureLoader().load("/fabric/denimOcc.jpg", () => {          }),
         };
         break;
       case "polyester":
@@ -427,13 +410,11 @@ document.querySelectorAll(".fabricOption .box-fabric").forEach((box) => {
           texture: new THREE.TextureLoader().load(
             "/fabric/polyester.png",
             () => {
-              console.log("Polyester texture loaded");
             }
           ),
           normalMap: new THREE.TextureLoader().load(
             "/fabric/polyesterNorm.png",
             () => {
-              console.log("Polyester normal map loaded");
             }
           ),
           roughnessMap: null,
@@ -444,14 +425,11 @@ document.querySelectorAll(".fabricOption .box-fabric").forEach((box) => {
         selectedFabric = {
           texture: new THREE.TextureLoader().load(
             "/fabric/metalColor.jpg",
-            () => {
-              console.log("Metal texture loaded");
-            }
+            () => {            }
           ),
           normalMap: new THREE.TextureLoader().load(
             "/fabric/metalColor.jpg",
             () => {
-              console.log("Metal normal map loaded");
             }
           ),
           roughnessMap: null,
