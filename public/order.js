@@ -64,6 +64,7 @@ document.addEventListener("DOMContentLoaded", function () {
   orderForm.addEventListener("submit", async (e) => {
     e.preventDefault();
 
+    // Gather customer information
     const clientInfo = {
       firstName: document.getElementById("firstName").value,
       lastName: document.getElementById("lastName").value,
@@ -73,7 +74,7 @@ document.addEventListener("DOMContentLoaded", function () {
       city: document.getElementById("city").value,
     };
 
-    // Make sure products are included in the orderData
+    // Ensure that products are included in the order data, and include the shoe configuration
     const orderData = {
       customer: clientInfo,
       totalPrice: calculatePrice(),
@@ -81,9 +82,9 @@ document.addEventListener("DOMContentLoaded", function () {
       products: [
         {
           productId: "shoe123", // Example product ID, should be dynamic
-          colors: shoeConfig.colors,
-          fabrics: shoeConfig.fabrics,
-          size: shoeConfig.size,
+          colors: shoeConfig.colors,   // Include colors from the shoeConfig
+          fabrics: shoeConfig.fabrics, // Include fabrics from the shoeConfig
+          size: shoeConfig.size,      // Include size from the shoeConfig
           price: 230, // Example price, should be dynamic
           quantity: 1, // Example quantity
         },
@@ -96,7 +97,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const response = await fetch("https://sneaker-config.onrender.com/api/v1/orders", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(orderData),
+        body: JSON.stringify(orderData), // Send orderData including product details
       });
 
       if (!response.ok) throw new Error("Order submission failed.");
