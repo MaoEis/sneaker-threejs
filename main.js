@@ -40,20 +40,22 @@ controls.rotateSpeed = 0.3; // Lower value for slower rotation
 controls.zoomSpeed = 0.3; // Lower value for slower zoom
 
 // Add ambientlighting
-const ambientLight = new THREE.AmbientLight(0x404040, 1.5); // Soft white light
+const ambientLight = new THREE.AmbientLight(0x404040, 1); // Soft white light
 scene.add(ambientLight);
 
 //directionallight
-const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-directionalLight.position.set(5, 10, 7.5);
+const directionalLight = new THREE.DirectionalLight(0xffffff, 0.3);
+directionalLight.position.set(-7, 15, 7.5);
 directionalLight.castShadow = true;
 scene.add(directionalLight);
+const lightAxesHelper = new THREE.AxesHelper(5); // 5 is the size of the axes helper
+directionalLight.add(lightAxesHelper);
 
-const hemiLight = new THREE.HemisphereLight(0xffffff, 0x444444, 1.5);
+const hemiLight = new THREE.HemisphereLight(0xffffff, 0x444444, 1.25);
 scene.add(hemiLight);
 
-const dirLight = new THREE.DirectionalLight(0xffffff, 2);
-dirLight.position.set(5, 10, 7.5);
+const dirLight = new THREE.DirectionalLight(0xffffff, 1.75);
+dirLight.position.set(7, 15, 7.5);
 scene.add(dirLight);
 
 // add backgroundphere with space.png
@@ -351,71 +353,101 @@ document.querySelectorAll(".fabricOption .box-fabric").forEach((box) => {
     switch (fabricType) {
       case "leather":
         selectedFabric = {
-          texture: new THREE.TextureLoader().load("/fabric/leather.jpg", () => {
-          }),
+          texture: new THREE.TextureLoader().load(
+            "/fabric/leather.jpg",
+            () => {}
+          ),
           normalMap: new THREE.TextureLoader().load(
             "/fabric/leatherNorm.jpg",
-            () => {
-            }
+            () => {}
           ),
           roughnessMap: new THREE.TextureLoader().load(
             "/fabric/leatherGloss.jpg",
-            () => {
-            }
+            () => {}
           ),
           envMap: new THREE.TextureLoader().load(
             "/fabric/leatherReflect.jpg",
-            () => {
-            }
+            () => {}
           ),
         };
         break;
       case "velvet":
         selectedFabric = {
-          texture: new THREE.TextureLoader().load("/fabric/velvet.png", () => {
-          }),
+          texture: new THREE.TextureLoader().load(
+            "/fabric/velvet.png",
+            (texture) => {
+              texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+              texture.repeat.set(4, 4); // Adjust the repeat value as needed
+            }
+          ),
           normalMap: new THREE.TextureLoader().load(
             "/fabric/velvetNorm.png",
-            () => {
+            (normalMap) => {
+              normalMap.wrapS = normalMap.wrapT = THREE.RepeatWrapping;
+              normalMap.repeat.set(4, 4); // Adjust the repeat value as needed
+              normalMap.anisotropy = 16; // Optional: improve texture quality
+              normalMap.scale.set(0.5, 0.5); // Adjust the normal map scale as needed
             }
           ),
           roughnessMap: new THREE.TextureLoader().load(
             "/fabric/velvetRough.png",
-            () => {
+            (roughnessMap) => {
+              roughnessMap.wrapS = roughnessMap.wrapT = THREE.RepeatWrapping;
+              roughnessMap.repeat.set(4, 4); // Adjust the repeat value as needed
             }
           ),
           envMap: new THREE.TextureLoader().load(
             "/fabric/velvetMetal.png",
-            () => {
+            (envMap) => {
+              envMap.wrapS = envMap.wrapT = THREE.RepeatWrapping;
+              envMap.repeat.set(4, 4); // Adjust the repeat value as needed
             }
           ),
         };
         break;
       case "denim":
         selectedFabric = {
-          texture: new THREE.TextureLoader().load("/fabric/denim.jpg", () => {          }),
+          texture: new THREE.TextureLoader().load(
+            "/fabric/denim.jpg",
+            (texture) => {
+              texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+              texture.repeat.set(4, 4); // Adjust the repeat value as needed
+            }
+          ),
           normalMap: new THREE.TextureLoader().load(
             "/fabric/denimNorm.jpg",
-            () => {            }
+            (normalMap) => {
+              normalMap.wrapS = normalMap.wrapT = THREE.RepeatWrapping;
+              normalMap.repeat.set(4, 4); // Adjust the repeat value as needed
+              normalMap.anisotropy = 16; // Optional: improve texture quality
+              normalMap.scale.set(0.5, 0.5); // Adjust the normal map scale as needed
+            }
           ),
           roughnessMap: new THREE.TextureLoader().load(
             "/fabric/denimSpec.jpg",
-            () => {            }
+            (roughnessMap) => {
+              roughnessMap.wrapS = roughnessMap.wrapT = THREE.RepeatWrapping;
+              roughnessMap.repeat.set(4, 4); // Adjust the repeat value as needed
+            }
           ),
-          envMap: new THREE.TextureLoader().load("/fabric/denimOcc.jpg", () => {          }),
+          envMap: new THREE.TextureLoader().load(
+            "/fabric/denimOcc.jpg",
+            (envMap) => {
+              envMap.wrapS = envMap.wrapT = THREE.RepeatWrapping;
+              envMap.repeat.set(4, 4); // Adjust the repeat value as needed
+            }
+          ),
         };
         break;
       case "polyester":
         selectedFabric = {
           texture: new THREE.TextureLoader().load(
             "/fabric/polyester.png",
-            () => {
-            }
+            () => {}
           ),
           normalMap: new THREE.TextureLoader().load(
             "/fabric/polyesterNorm.png",
-            () => {
-            }
+            () => {}
           ),
           roughnessMap: null,
           envMap: null,
@@ -425,11 +457,18 @@ document.querySelectorAll(".fabricOption .box-fabric").forEach((box) => {
         selectedFabric = {
           texture: new THREE.TextureLoader().load(
             "/fabric/metalColor.jpg",
-            () => {            }
+            (texture) => {
+              texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+              texture.repeat.set(30, 30); // Adjust the repeat value as needed
+            }
           ),
           normalMap: new THREE.TextureLoader().load(
             "/fabric/metalColor.jpg",
-            () => {
+            (normalMap) => {
+              normalMap.wrapS = normalMap.wrapT = THREE.RepeatWrapping;
+              normalMap.repeat.set(15, 15); // Adjust the repeat value as needed
+              normalMap.anisotropy = 16; // Optional: improve texture quality
+              normalMap.scale.set(0.5, 0.5); // Adjust the normal map scale as needed
             }
           ),
           roughnessMap: null,
@@ -569,7 +608,7 @@ document.querySelector(".close-btn").addEventListener("click", function () {
 const shoeConfig = {
   colors: {}, // Dynamically populate with part: color
   fabrics: {}, // Dynamically populate with part: fabric
-  size: null,  // Dynamically set size
+  size: null, // Dynamically set size
   initials: null, // Dynamically set initials
 };
 
@@ -583,6 +622,7 @@ document.querySelectorAll(".colorOption .box").forEach((box) => {
       lastSelectedObject.material.color.set(color);
     }
   });
+  box.style.cursor = "pointer";
 });
 
 document.querySelectorAll(".fabricOption .box-fabric").forEach((box) => {
@@ -593,6 +633,11 @@ document.querySelectorAll(".fabricOption .box-fabric").forEach((box) => {
       shoeConfig.fabrics[partName] = fabricType;
     }
   });
+  box.style.cursor = "pointer";
+});
+
+document.querySelectorAll("#size").forEach((box) => {
+  box.style.cursor = "pointer"; // Change cursor to pointer
 });
 
 // Handle size selection
@@ -614,17 +659,10 @@ document.getElementById("orderButton").addEventListener("click", () => {
   }
 
   localStorage.setItem("shoeConfig", JSON.stringify(shoeConfig));
-  window.location.href = "order.html"; // Redirect to the order page
-});
 
-// Validate shoe configuration
-function validateShoeConfig() {
-  return (
-    Object.keys(shoeConfig.colors).length > 0 &&
-    Object.keys(shoeConfig.fabrics).length > 0 &&
-    shoeConfig.size
-  );
-}
+  // Redirect to the Vue.js order page
+  window.location.href = "https://frontend-eaoe.onrender.com/order";
+});
 
 
 // Rotate the cube and update controls
