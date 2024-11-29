@@ -588,6 +588,44 @@ document.querySelector(".close-btn").addEventListener("click", function () {
   document.querySelector(".succes").style.display = "none";
 });
 
+//bestellen van schoen logica
+document.querySelector(".btn a").addEventListener("click", (event) => {
+  event.preventDefault();
+
+  // Example shoe configuration data
+  const shoeConfig = {
+    colors: {
+      laces: selectedColors.laces,
+      "sole-top": selectedColors["sole-top"],
+      "sole-bottom": selectedColors["sole-bottom"],
+      "front-part": selectedColors["front-part"],
+      "upper-part": selectedColors["upper-part"],
+      body: selectedColors.body,
+      lining: selectedColors.lining,
+    },
+    fabrics: {
+      laces: selectedFabrics.laces,
+      "sole-top": selectedFabrics["sole-top"],
+      "sole-bottom": selectedFabrics["sole-bottom"],
+      "front-part": selectedFabrics["front-part"],
+      "upper-part": selectedFabrics["upper-part"],
+      body: selectedFabrics.body,
+      lining: selectedFabrics.lining,
+    },
+    size: selectedSize || 42,
+    initials: engravingDiv.querySelector("#engraveText").value || "",
+    price: 230,
+    quantity: 1,
+  };
+
+  // Pass the configuration to Vue.js
+  localStorage.setItem("shoeConfig", JSON.stringify(shoeConfig));
+
+  // Redirect to the Vue.js order page
+  window.location.href = "http://localhost:5173/orderpage"; // Adjust URL to match your setup
+});
+
+
 // Rotate the cube and update controls
 function animate() {
   requestAnimationFrame(animate);
