@@ -659,10 +659,17 @@ document.getElementById("orderButton").addEventListener("click", () => {
   }
 
   localStorage.setItem("shoeConfig", JSON.stringify(shoeConfig));
-
-  // Redirect to the Vue.js order page
-  window.location.href = "https://frontend-eaoe.onrender.com/order";
+  window.location.href = "order.html"; // Redirect to the order page
 });
+
+// Validate shoe configuration
+function validateShoeConfig() {
+  return (
+    Object.keys(shoeConfig.colors).length > 0 &&
+    Object.keys(shoeConfig.fabrics).length > 0 &&
+    shoeConfig.size
+  );
+}
 
 
 // Rotate the cube and update controls
