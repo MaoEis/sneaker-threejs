@@ -663,7 +663,7 @@ document.getElementById("orderButton").addEventListener("click", () => {
   localStorage.setItem("shoeConfig", JSON.stringify(shoeConfig));
 
   // Redirect to the order page
-  window.location.href = "./order.html"; // Redirect to the order page where the client will enter their details
+  window.location.href = "/order.html"; // Redirect to the order page where the client will enter their details
 });
 
 // Validate if the shoe configuration is complete
