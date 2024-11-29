@@ -653,21 +653,25 @@ document.getElementById("engraveButton").addEventListener("click", () => {
 
 // Three.js page logic
 document.getElementById("orderButton").addEventListener("click", () => {
+  // Check if the shoe configuration is valid
   if (!validateShoeConfig()) {
     alert("Please complete your shoe configuration.");
     return;
   }
 
+  // Store the configuration in localStorage
   localStorage.setItem("shoeConfig", JSON.stringify(shoeConfig));
-  window.location.href = "order.html"; // Redirect to the order page
+
+  // Redirect to the order page
+  window.location.href = "/order.html"; // Redirect to the order page where the client will enter their details
 });
 
-// Validate shoe configuration
+// Validate if the shoe configuration is complete
 function validateShoeConfig() {
   return (
-    Object.keys(shoeConfig.colors).length > 0 &&
-    Object.keys(shoeConfig.fabrics).length > 0 &&
-    shoeConfig.size
+    Object.keys(shoeConfig.colors).length > 0 && // Ensure colors are selected
+    Object.keys(shoeConfig.fabrics).length > 0 && // Ensure fabrics are selected
+    shoeConfig.size !== "None selected" // Ensure size is selected
   );
 }
 
