@@ -610,7 +610,7 @@ document.getElementById("engraveButton").addEventListener("click", () => {
 
 // Handle Order button click
 // Handle Order button click
-document.querySelector(".btn").addEventListener("click", (event) => {
+document.getElementById("orderButton").addEventListener("click", (event) => {
   event.preventDefault();
 
   // Validate shoeConfig before proceeding
@@ -634,7 +634,7 @@ document.querySelector(".btn").addEventListener("click", (event) => {
   localStorage.setItem("shoeConfig", JSON.stringify(shoeConfig));
 
   // Redirect to the Vue.js order page
-  //window.location.href = "https://frontend-eaoe.onrender.com/order";
+  window.location.href = "https://frontend-eaoe.onrender.com/order";
 });
 
 
