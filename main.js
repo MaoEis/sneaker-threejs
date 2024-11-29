@@ -588,41 +588,69 @@ document.querySelector(".close-btn").addEventListener("click", function () {
   document.querySelector(".succes").style.display = "none";
 });
 
-//bestellen van schoen logica
-document.querySelector(".btn a").addEventListener("click", (event) => {
+const shoeConfig = {
+  colors: {}, // Dynamically populate with part: color
+  fabrics: {}, // Dynamically populate with part: fabric
+  size: null,  // Dynamically set size
+  initials: null, // Dynamically set initials
+};
+
+// Update color and fabric for selected parts dynamically
+document.querySelectorAll(".colorOption .box").forEach((box) => {
+  box.addEventListener("click", (event) => {
+    const color = `#${event.target.getAttribute("data-color")}`;
+    if (lastSelectedObject) {
+      const partName = lastSelectedObject.name;
+      shoeConfig.colors[partName] = color;
+      lastSelectedObject.material.color.set(color);
+    }
+  });
+});
+
+document.querySelectorAll(".fabricOption .box-fabric").forEach((box) => {
+  box.addEventListener("click", (event) => {
+    const fabricType = event.target.getAttribute("data-fabric");
+    if (lastSelectedObject) {
+      const partName = lastSelectedObject.name;
+      shoeConfig.fabrics[partName] = fabricType;
+    }
+  });
+});
+
+// Handle size selection
+document.getElementById("size").addEventListener("change", (event) => {
+  shoeConfig.size = parseInt(event.target.value.replace("size-", ""));
+});
+
+// Handle initials
+document.getElementById("engraveButton").addEventListener("click", () => {
+  const initials = document.getElementById("engraveText").value.trim();
+  shoeConfig.initials = initials;
+});
+
+// Handle Order button click
+document.querySelector(".btn").addEventListener("click", (event) => {
   event.preventDefault();
 
-  // Example shoe configuration data
-  const shoeConfig = {
-    colors: {
-      laces: selectedColors.laces,
-      "sole-top": selectedColors["sole-top"],
-      "sole-bottom": selectedColors["sole-bottom"],
-      "front-part": selectedColors["front-part"],
-      "upper-part": selectedColors["upper-part"],
-      body: selectedColors.body,
-      lining: selectedColors.lining,
-    },
-    fabrics: {
-      laces: selectedFabrics.laces,
-      "sole-top": selectedFabrics["sole-top"],
-      "sole-bottom": selectedFabrics["sole-bottom"],
-      "front-part": selectedFabrics["front-part"],
-      "upper-part": selectedFabrics["upper-part"],
-      body: selectedFabrics.body,
-      lining: selectedFabrics.lining,
-    },
-    size: selectedSize || 42,
-    initials: engravingDiv.querySelector("#engraveText").value || "",
-    price: 230,
-    quantity: 1,
-  };
+  // Validate shoeConfig before proceeding
+  if (!shoeConfig.size) {
+    alert("Please select a size.");
+    return;
+  }
+  if (Object.keys(shoeConfig.colors).length === 0) {
+    alert("Please choose colors for the shoe parts.");
+    return;
+  }
+  if (Object.keys(shoeConfig.fabrics).length === 0) {
+    alert("Please choose fabrics for the shoe parts.");
+    return;
+  }
 
-  // Pass the configuration to Vue.js
+  // Save the configuration in localStorage
   localStorage.setItem("shoeConfig", JSON.stringify(shoeConfig));
 
   // Redirect to the Vue.js order page
-  window.location.href = "http://localhost:5173/orderpage"; // Adjust URL to match your setup
+  window.location.href = "https://frontend-eaoe.onrender.com/order";
 });
 
 
