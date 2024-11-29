@@ -74,36 +74,35 @@ document.addEventListener("DOMContentLoaded", function () {
       city: document.getElementById("city").value,
     };
 
-    // Ensure that products are included in the order data, and include the shoe configuration
     const orderData = {
       customer: clientInfo,
       totalPrice: calculatePrice(),
       status: "Pending",
       products: [
         {
-          productId: "1", // Example product ID, should be dynamic
-          colors: shoeConfig.colors,   // Include colors from the shoeConfig
-          fabrics: shoeConfig.fabrics, // Include fabrics from the shoeConfig
-          size: shoeConfig.size,      // Include size from the shoeConfig
-          price: 220, // Example price, should be dynamic
+          productId: "1", // Make sure productId is valid
+          colors: shoeConfig.colors, // Ensure colors are properly formatted
+          fabrics: shoeConfig.fabrics, // Ensure fabrics are properly formatted
+          size: shoeConfig.size, // Ensure size is correctly passed
+          price: 220, // Example price, can be dynamic
           quantity: 1, // Example quantity
-          initials: shoeConfig.initials || null,  // Include initials from the shoeConfig
+          initials: shoeConfig.initials || "None",  // Set initials to "None" if null
         },
       ],
     };
-
-    console.log("Order Data: ", orderData); // Log the orderData before sending it
-
+    
+    console.log("Order Data: ", orderData); // Log orderData to inspect the request body before sending
+    
     try {
       const response = await fetch("https://sneaker-config.onrender.com/api/v1/orders", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(orderData), // Send orderData including product details
+        body: JSON.stringify(orderData), // Send the correctly structured orderData
       });
-
+    
       if (!response.ok) throw new Error("Order submission failed.");
       const result = await response.json();
-
+    
       // Redirect to thank you page
       alert("Order placed successfully!");
       localStorage.removeItem("shoeConfig"); // Clear the configuration from localStorage
@@ -112,6 +111,7 @@ document.addEventListener("DOMContentLoaded", function () {
       console.error("Error submitting order:", err);
       alert("Failed to submit order. Please try again.");
     }
+    
   });
 });
 
