@@ -153,24 +153,25 @@ h2 {
 }
 
 #leatherFabric {
-  background-image: url("/public/fabric/leather.jpg");
+  background-image: url("/public/fabric/veganimg.png");
   background-position: center;
 }
 
 #denimFabric {
-  background-image: url("/public/fabric/denimNorm.jpg");
+  background-image: url("/public/fabric/denim.png");
   background-position: center;
 }
-#metalLeatherFabricc {
-  background-image: url("/public/fabric/metalColor.jpg");
+#metalLeatherFabric {
+  background-image: url("/public/fabric/metal.png");
   background-position: center;
+  background-color: #ffffff;
 }
 #velvetFabric {
-  background-image: url("/public/fabric/velvet.png");
+  background-image: url("/public/fabric/velvetimg.png");
   background-position: center;
 }
 #polyesterFabric {
-  background-image: url("/public/fabric/polyesterNorm.png");
+  background-image: url("/public/fabric/polyesterimg.png");
   background-position: center;
 }
 
