@@ -1,0 +1,110 @@
+#order-page {
+    padding: 50px;   
+    background-color: #f9f9f9;
+
+  }
+  .order-page-subcontainer{
+    display: flex;
+    gap: 20px;
+  }
+
+  .client-info{
+    flex: 1;
+  }
+
+  .shoe-summary{
+    flex: 1;
+    height: fit-content;
+  }
+
+
+  h1, h2 {
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .shoe-summary, .client-info {
+    margin-bottom: 20px;
+    padding: 20px;
+    border-radius: 8px;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for each block */
+
+  }
+  
+  
+  .shoe-part {
+    margin: 5px 0;
+  }
+  
+  label {
+    display: block;
+    margin: 10px 0;
+  }
+  
+  input, textarea {
+    width: -webkit-fill-available;
+    padding: 15px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .place-order-button {
+    padding: 20px;
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+  }
+  
+  .place-order-button:hover {
+    background-color: #0056b3;
+  }
+
+  .full-name{
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .back_button{
+    display: inline-block;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    text-decoration: underline;
+}
+
+.header-order{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.shoe-summary {
+  display: flex;
+  flex-direction: column;
+}
+
+.image-and-colors {
+  display: flex;
+  align-items: flex-start;
+}
+
+.image-and-colors img {
+  margin-right: 20px; /* Ruimte tussen de afbeelding en de kleurdetails */
+}
+
+.shoe-part {
+  margin-bottom: 10px; /* Ruimte tussen de verschillende onderdelen */
+}
+
+.price{
+  display: flex;
+  justify-content:space-between;
+}

@@ -591,7 +591,7 @@ function addInitialsToOutside2(text) {
   );
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+/*document.addEventListener("DOMContentLoaded", () => {
   const orderBtn = document.querySelector(".btn");
   const succes = document.querySelector(".succes");
 
@@ -603,7 +603,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 document.querySelector(".close-btn").addEventListener("click", function () {
   document.querySelector(".succes").style.display = "none";
-});
+});*/
 
 const shoeConfig = {
   colors: {}, // Dynamically populate with part: color
@@ -651,33 +651,30 @@ document.getElementById("engraveButton").addEventListener("click", () => {
   shoeConfig.initials = initials;
 });
 
-// Handle Order button click
-document.getElementById("orderButton").addEventListener("click", (event) => {
-  event.preventDefault();
-
-  // Validate shoeConfig before proceeding
-  if (!shoeConfig.size) {
-    alert("Please select a size.");
-    return;
-  }
-  if (Object.keys(shoeConfig.colors).length === 0) {
-    alert("Please choose colors for the shoe parts.");
-    return;
-  }
-  if (Object.keys(shoeConfig.fabrics).length === 0) {
-    alert("Please choose fabrics for the shoe parts.");
+// Three.js page logic
+document.getElementById("orderButton").addEventListener("click", () => {
+  // Check if the shoe configuration is valid
+  if (!validateShoeConfig()) {
+    alert("Please complete your shoe configuration.");
     return;
   }
 
-  // Log the current shoeConfig to the console
-  console.log("Shoe Configuration:", shoeConfig);
-
-  // Save the configuration in localStorage
+  // Store the configuration in localStorage
   localStorage.setItem("shoeConfig", JSON.stringify(shoeConfig));
 
-  // Redirect to the Vue.js order page
-  window.location.href = "https://frontend-eaoe.onrender.com/order";
+  // Redirect to the order page
+  window.location.href = "/order.html"; // Redirect to the order page where the client will enter their details
 });
+
+// Validate if the shoe configuration is complete
+function validateShoeConfig() {
+  return (
+    Object.keys(shoeConfig.colors).length > 0 && // Ensure colors are selected
+    Object.keys(shoeConfig.fabrics).length > 0 && // Ensure fabrics are selected
+    shoeConfig.size !== "None selected" // Ensure size is selected
+  );
+}
+
 
 // Rotate the cube and update controls
 function animate() {

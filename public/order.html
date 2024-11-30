@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./order.css">
+</head>
+<body>
+    <div id="order-page">
+        <div class="header-order">
+            <h1>CHECKOUT</h1>
+            <button class="back_button">Continue browsing</button>
+        </div>
+      <div class="order-page-subcontainer">
+      <!-- Client Information Form -->
+      <div class="client-info">
+        <h2>Customer information</h2>
+        <form id="orderForm">
+            <label>
+            First Name:
+            <input type="text" id="firstName" required>
+          </label>
+          <label>
+            Last Name:
+            <input type="text" id="lastName" required>
+          </label>
+          <label type="phone">Phone Number:
+            <input type="phone" id="phone" required />
+          </label>
+          <label>
+            Email:
+            <input type="email" id="email" required>
+          </label>
+          <label>
+            Address:
+            <input type="text" id="address" required>
+          </label>
+          <label>
+            Postal Code:
+            <input type="text" id="postalCode" required>
+          </label>
+          <label>
+            City:
+            <input type="text" id="city" required>
+          </label>
+          <button type="submit" class="place-order-button">Place Order</button>
+        </form>
+      </div>
+            <!-- Shoe Configuration Summary -->
+            <div class="shoe-summary">
+  <h2>Product details</h2>
+  <div id="shoeSummary">
+    <!-- Shoe summary details are dynamically injected here -->
+  </div>
+    </div>
+</div>
+<script src="./order.js"></script>
+
+</body>
+</html>
