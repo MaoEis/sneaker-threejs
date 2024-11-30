@@ -39,23 +39,50 @@ controls.maxDistance = 10; // Adjust this value as needed
 controls.rotateSpeed = 0.3; // Lower value for slower rotation
 controls.zoomSpeed = 0.3; // Lower value for slower zoom
 
+const cubeTextureLoader = new THREE.CubeTextureLoader();
+const environmentMapTexture = cubeTextureLoader.load([
+  "/cubemap/px.png",
+  "/cubemap/nx.png",
+  "/cubemap/py.png",
+  "/cubemap/ny.png",
+  "/cubemap/pz.png",
+  "/cubemap/nz.png",
+]);
+
+const cylinderGeometry = new THREE.CylinderGeometry(6, 6, 3, 80);
+const cylinderMaterial = new THREE.MeshStandardMaterial({
+  color: "#d357fe",
+  emissive: "#ffa57d",
+  emissiveIntensity: 0.2,
+  metalness: 0.4,
+  roughness: 0.1,
+  envMap: environmentMapTexture,
+});
+const cylinder = new THREE.Mesh(cylinderGeometry, cylinderMaterial);
+scene.add(cylinder);
+//receive shadow cylinder
+cylinder.receiveShadow = true;
+cylinder.castShadow = true;
+cylinder.position.set(0, -1.5, -0.7);
+
 // Add ambientlighting
 const ambientLight = new THREE.AmbientLight(0x404040, 1); // Soft white light
+ambientLight.castShadow = true;
 scene.add(ambientLight);
 
 //directionallight
-const directionalLight = new THREE.DirectionalLight(0xffffff, 0.3);
+const directionalLight = new THREE.DirectionalLight(0xffffff, 1.25);
 directionalLight.position.set(-7, 15, 7.5);
 directionalLight.castShadow = true;
 scene.add(directionalLight);
-const lightAxesHelper = new THREE.AxesHelper(5); // 5 is the size of the axes helper
-directionalLight.add(lightAxesHelper);
 
 const hemiLight = new THREE.HemisphereLight(0xffffff, 0x444444, 1.25);
+hemiLight.castShadow = true;
 scene.add(hemiLight);
 
-const dirLight = new THREE.DirectionalLight(0xffffff, 1.75);
-dirLight.position.set(7, 15, 7.5);
+const dirLight = new THREE.DirectionalLight(0xffffff, 1.25);
+dirLight.position.set(7, -15, 7.5);
+dirLight.castShadow = true;
 scene.add(dirLight);
 
 // add backgroundphere with space.png
@@ -108,6 +135,12 @@ loader.load(
     });
 
     scene.add(shoe);
+
+    shoe.traverse((child) => {
+      if (child.isMesh) {
+        child.castShadow = true;
+      }
+    });
 
     const lacesMesh = shoe.getObjectByName("laces");
     const soleBottomMesh = shoe.getObjectByName("sole_bottom");
@@ -674,7 +707,6 @@ function validateShoeConfig() {
     shoeConfig.size !== "None selected" // Ensure size is selected
   );
 }
-
 
 // Rotate the cube and update controls
 function animate() {

@@ -86,6 +86,10 @@ body {
   gap: 30px;
 }
 
+.selected {
+  border: 2px solid #03f100;
+}
+
 h2 {
   font-size: medium;
   margin-bottom: -10px;
@@ -97,13 +101,13 @@ h2 {
   flex-direction: row;
   justify-content: center;
   align-items: flex-start;
-  gap: 20px;
+  gap: 10px;
   font-size: small;
 }
 
 .box-container,
 .fabric-container {
-  max-width: 50px;
+  width: 50px;
 }
 
 .btn {
