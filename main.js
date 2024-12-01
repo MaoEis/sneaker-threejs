@@ -720,49 +720,61 @@ function animate() {
   // camera.lookAt(shoe.position);
 }
 
- // Selecteer alle kleurvakjes
+ // Selecteer de kleur- en stofvakjes
  const colorOptions = document.querySelectorAll('.box');
+ const fabricOptions = document.querySelectorAll('.box-fabric');
+ 
+ // Selecteer de titel elementen voor kleur en stof
+ const colorTitle = document.querySelector('.colour h2');
+ const fabricTitle = document.querySelector('.fabric h2'); // Titel voor stoffen
 
- // Voeg een click event listener toe voor elke kleur
+ // Kleur vakjes
  colorOptions.forEach(box => {
+   // Hover effect voor kleurvakjes
+   box.addEventListener('mouseover', () => {
+     // Haal de naam van de kleur uit het data-name attribuut
+     const colorName = box.getAttribute('data-name');
+     // Verander de tekst van de titel naar de kleurnaam
+     colorTitle.textContent = colorName;
+   });
+
+   // Mouseout effect voor kleurvakjes (herstel naar "COLOUR")
+   box.addEventListener('mouseout', () => {
+     colorTitle.textContent = 'COLOUR';
+   });
+
+   // Klik functionaliteit voor kleurvakjes
    box.addEventListener('click', () => {
      // Verwijder de actieve klasse van alle kleurvakjes
      colorOptions.forEach(b => b.classList.remove('active'));
-
-     // Voeg de actieve klasse toe aan het geklikte kleurvakje
+     // Voeg actieve klasse toe aan het geklikte kleurvakje
      box.classList.add('active');
    });
  });
 
-  // Selecteer de boxen en de titel "COLOUR"
-  const colorTitle = document.querySelector('.colour h2');
+ // Stof vakjes
+ fabricOptions.forEach(box => {
+   // Hover effect voor stofvakjes
+   box.addEventListener('mouseover', () => {
+     // Haal de naam van de stof uit het data-name attribuut
+     const fabricName = box.getAttribute('data-name');
+     // Verander de tekst van de titel naar de stofnaam
+     fabricTitle.textContent = fabricName;
+   });
 
-  // Voeg een mouseover event listener toe voor elke kleur
-  colorOptions.forEach(box => {
-    box.addEventListener('mouseover', () => {
-      // Haal de naam van de kleur uit het data-name attribuut
-      const colorName = box.getAttribute('data-name');
-      
-      // Verander de tekst van de titel naar de kleurnaam
-      colorTitle.textContent = colorName;
-    });
+   // Mouseout effect voor stofvakjes (herstel naar "FABRIC")
+   box.addEventListener('mouseout', () => {
+     fabricTitle.textContent = 'FABRIC';
+   });
 
-    // Voeg een mouseout event listener toe om de tekst terug te zetten naar "COLOUR"
-    box.addEventListener('mouseout', () => {
-      colorTitle.textContent = 'COLOUR';
-    });
-  });
-
-  // De klik-functionaliteit blijft hetzelfde als in de vorige stap
-  colorOptions.forEach(box => {
-    box.addEventListener('click', () => {
-      // Verwijder de actieve klasse van alle kleurvakjes
-      colorOptions.forEach(b => b.classList.remove('active'));
-
-      // Voeg de actieve klasse toe aan het geklikte kleurvakje
-      box.classList.add('active');
-    });
-  });
+   // Klik functionaliteit voor stofvakjes
+   box.addEventListener('click', () => {
+     // Verwijder de actieve klasse van alle stofvakjes
+     fabricOptions.forEach(b => b.classList.remove('active'));
+     // Voeg actieve klasse toe aan het geklikte stofvakje
+     box.classList.add('active');
+   });
+ });
 
 
 // Handle window resizing
