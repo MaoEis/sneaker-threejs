@@ -283,6 +283,11 @@ h2 {
   opacity: 0.9;
 }
 
+.options_container{
+  display: flex;  
+  gap: 100px;
+  align-items: flex-start;
+}
 
 @media (min-width: 800px) {
   .nav {

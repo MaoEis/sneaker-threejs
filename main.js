@@ -67,7 +67,7 @@ cylinder.position.set(0, -1.5, -0.7);
 
 // Add ambientlighting
 const ambientLight = new THREE.AmbientLight(0x404040, 1); // Soft white light
-ambientLight.castShadow = true;
+ambientLight.castShadow = false;
 scene.add(ambientLight);
 
 //directionallight
@@ -77,7 +77,7 @@ directionalLight.castShadow = true;
 scene.add(directionalLight);
 
 const hemiLight = new THREE.HemisphereLight(0xffffff, 0x444444, 1.25);
-hemiLight.castShadow = true;
+hemiLight.castShadow = false;
 scene.add(hemiLight);
 
 const dirLight = new THREE.DirectionalLight(0xffffff, 1.25);
@@ -696,14 +696,8 @@ document.getElementById("orderButton").addEventListener("click", () => {
   }
 
   localStorage.setItem("shoeConfig", JSON.stringify(shoeConfig));
-  showPage("order");
+  window.location.href = "/order.html"; // Redirect to the order page where the client will enter their details
   displayShoeSummary();
-});
-
-// Close the modal when clicking the close button
-document.getElementById("modalClose").addEventListener("click", () => {
-  const modal = document.getElementById("modal");
-  modal.style.display = "none";
 });
 
 
