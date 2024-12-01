@@ -289,6 +289,15 @@ h2 {
   align-items: flex-start;
 }
 
+select#size {
+  padding: 10px;
+  border-radius: 5px;
+  height: 50px;
+  width: 290px;
+}
+
+
+
 @media (min-width: 800px) {
   .nav {
     display: flex;
@@ -326,7 +335,6 @@ h2 {
     margin-bottom: -10px;
     width: 200px;
     border-radius: 5px;
-    height: 25px;
     text-align: center;
   }
 }
