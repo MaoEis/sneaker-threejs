@@ -694,9 +694,9 @@ document.querySelectorAll("#size").forEach((box) => {
 });
 
 // Handle size selection
-document.getElementById("size").addEventListener("change", (event) => {
+/*document.getElementById("size").addEventListener("change", (event) => {
   shoeConfig.size = parseInt(event.target.value.replace("size-", ""));
-});
+});*/
 
 // Handle initials
 document.getElementById("engraveButton").addEventListener("click", () => {
