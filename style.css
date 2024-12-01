@@ -114,7 +114,6 @@ h2 {
   background-color: #03f100;
   padding: 10px 20px;
   border: none;
-  border-radius: 5px;
   cursor: pointer;
   position: absolute;
   top: 20px;
@@ -200,7 +199,7 @@ h2 {
 
 #engraveButton {
   background-color: #03f100;
-  padding: 5px 10px;
+  padding: 10px 20px;
   font-weight: 900;
   border: none;
   border-radius: 5px;
@@ -212,14 +211,10 @@ h2 {
   transform: scale(1.2);
 }
 
-#engraveText {
-  width: 200px;
-  height: 25px;
-  border: 1px solid #f4f4f4;
-  border-radius: 5px;
+input#engraveText {
   padding: 10px;
-  border: 3px solid #68ff47;
-  text-align: center;
+  height: 50px;
+  width: 290px;
 }
 
 /* Voeg deze CSS toe in je styles.css of binnen een <style> tag in je HTML */
@@ -291,7 +286,7 @@ h2 {
 
 select#size {
   padding: 10px;
-  border-radius: 5px;
+
   height: 50px;
   width: 290px;
 }
@@ -334,7 +329,6 @@ select#size {
     font-size: medium;
     margin-bottom: -10px;
     width: 200px;
-    border-radius: 5px;
     text-align: center;
   }
 }
