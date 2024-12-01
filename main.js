@@ -734,6 +734,37 @@ function animate() {
    });
  });
 
+  // Selecteer de boxen en de titel "COLOUR"
+  const colorTitle = document.querySelector('.colour h2');
+
+  // Voeg een mouseover event listener toe voor elke kleur
+  colorOptions.forEach(box => {
+    box.addEventListener('mouseover', () => {
+      // Haal de naam van de kleur uit het data-name attribuut
+      const colorName = box.getAttribute('data-name');
+      
+      // Verander de tekst van de titel naar de kleurnaam
+      colorTitle.textContent = colorName;
+    });
+
+    // Voeg een mouseout event listener toe om de tekst terug te zetten naar "COLOUR"
+    box.addEventListener('mouseout', () => {
+      colorTitle.textContent = 'COLOUR';
+    });
+  });
+
+  // De klik-functionaliteit blijft hetzelfde als in de vorige stap
+  colorOptions.forEach(box => {
+    box.addEventListener('click', () => {
+      // Verwijder de actieve klasse van alle kleurvakjes
+      colorOptions.forEach(b => b.classList.remove('active'));
+
+      // Voeg de actieve klasse toe aan het geklikte kleurvakje
+      box.classList.add('active');
+    });
+  });
+
+
 // Handle window resizing
 window.addEventListener("resize", () => {
   renderer.setSize(window.innerWidth, window.innerHeight);
