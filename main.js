@@ -167,6 +167,23 @@ loader.load(
   }
 );
 
+// Function to hide colour and fabric
+const hideOptions = () => {
+  const colour = document.querySelector(".colour");
+  const fabric = document.querySelector(".fabric");
+  colour.style.display = "none";
+  fabric.style.display = "none";
+};
+
+// Function to show colour and fabric
+const showOptions = () => {
+  const colour = document.querySelector(".colour");
+  const fabric = document.querySelector(".fabric");
+  colour.style.display = "flex";
+  fabric.style.display = "flex";
+};
+
+
 // move event select object in shoe when hoover
 //make a raycaster
 const raycaster = new THREE.Raycaster();
@@ -289,7 +306,6 @@ let selectedFabric = null;
 
 function toggleDivs() {
   engravingDiv.style.display = "none";
-  optionsDiv.style.display = "flex";
 }
 
 window.addEventListener("click", (event) => {
@@ -321,6 +337,11 @@ window.addEventListener("click", (event) => {
       // Set the last selected object
       lastSelectedObject = intersectedObject;
       selectedShoePart = intersectedObject;
+
+      const colour = document.querySelector(".colour");
+      const fabric = document.querySelector(".fabric");
+      colour.style.display = "flex";
+      fabric.style.display = "flex";
 
       // Check if the intersected object has a name and animate the camera accordingly
       switch (intersectedObject.name) {
@@ -554,7 +575,6 @@ document.addEventListener("DOMContentLoaded", () => {
     event.preventDefault();
     console.log("Engrave link clicked");
     engravingDiv.style.display = "flex";
-    optionsDiv.style.display = "none";
     styleNavChildren(".engraving");
     animateCamera({ x: 1.5, y: 6, z: 3.5 }, ".engraving");
   });
@@ -709,6 +729,26 @@ function validateShoeConfig() {
     shoeConfig.size !== "None selected" // Ensure size is selected
   );
 }
+
+// engraving on and off
+const engraving = document.querySelector(".engraving");
+const navLinks = document.querySelectorAll(".nav a");
+
+// Hide options when clicking on `.engraving`
+engraving.addEventListener("click", (event) => {
+  event.preventDefault();
+  hideOptions();
+});
+
+// Show options when clicking on other `.nav` links
+navLinks.forEach((link) => {
+  if (!link.classList.contains("engraving")) {
+    link.addEventListener("click", (event) => {
+      event.preventDefault();
+      showOptions();
+    });
+  }
+});
 
 // Rotate the cube and update controls
 function animate() {
