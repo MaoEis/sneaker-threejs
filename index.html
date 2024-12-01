@@ -9,7 +9,7 @@
   <body>
     <div id="app"></div>
     <div>
-      <img class="logo" src="./public/SWEAR-logo.png" alt="logo">
+      <img class="logo" src="./public/SWEAR-logo.png" alt="logo" />
     </div>
     <div class="customise">
       <div class="nav">
@@ -41,7 +41,6 @@
             <div class="box-container">
               <div class="box creamy-white" data-color="ffffff" data-name="Creamy White"></div>
             </div>
-            
           </div>
         </div>
         <div class="fabric">
@@ -63,10 +62,9 @@
               <div class="box-fabric polyester" id="polyesterFabric" data-fabric="polyester" data-name="Polyester"></div>
             </div>
           </div>
-          
-          </div>
-        </div>  
-        <div class="sizeOptions">
+        </div>
+      </div>
+      <div class="sizeOptions">
         <label for="size">SIZE</label>
         <select name="size" id="size">
           <option value="" disabled selected>Select</option>
@@ -79,21 +77,26 @@
           <option value="size-42">42</option>
         </select>
       </div>
-      </div>
       <div class="engrave">
         <label for="engraveText">INITIALS YOU WANT TO ADD:</label>
-        <input type="text" id="engraveText" maxlength="3" placeholder="Max 3 chars">
+        <input type="text" id="engraveText" maxlength="3" placeholder="Max 3 chars" />
         <button id="engraveButton">ADD INITIAL</button>
       </div>
     </div>
     <div class="btn">
       <a id="orderButton">ORDER</a>
     </div>
+
+    <!-- Voorbeeld van de schoen, elk onderdeel is een 'div' die we gaan kleuren -->
+    <div class="shoe">
+      <div class="shoe-part sole_bottom" id="shoe_sole_bottom"></div>
+      <div class="shoe-part sole_top" id="shoe_sole_top"></div>
+      <div class="shoe-part laces" id="shoe_laces"></div>
+      <div class="shoe-part outside_1" id="shoe_outside_1"></div>
+      <div class="shoe-part outside_2" id="shoe_outside_2"></div>
+      <div class="shoe-part outside_3" id="shoe_outside_3"></div>
+      <div class="shoe-part inside" id="shoe_inside"></div>
     </div>
-    <!--<div class="succes">
-      <button class="close-btn">&times;</button>
-      <h1>ORDER COMPLETED</h1>
-    </div>-->
     <script type="module" src="/main.js"></script>
   </body>
 </html>
