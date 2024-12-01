@@ -720,6 +720,20 @@ function animate() {
   // camera.lookAt(shoe.position);
 }
 
+ // Selecteer alle kleurvakjes
+ const colorOptions = document.querySelectorAll('.box');
+
+ // Voeg een click event listener toe voor elke kleur
+ colorOptions.forEach(box => {
+   box.addEventListener('click', () => {
+     // Verwijder de actieve klasse van alle kleurvakjes
+     colorOptions.forEach(b => b.classList.remove('active'));
+
+     // Voeg de actieve klasse toe aan het geklikte kleurvakje
+     box.classList.add('active');
+   });
+ });
+
 // Handle window resizing
 window.addEventListener("resize", () => {
   renderer.setSize(window.innerWidth, window.innerHeight);
