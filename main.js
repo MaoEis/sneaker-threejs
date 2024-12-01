@@ -686,18 +686,26 @@ document.getElementById("engraveButton").addEventListener("click", () => {
 
 // Three.js page logic
 document.getElementById("orderButton").addEventListener("click", () => {
-  // Check if the shoe configuration is valid
   if (!validateShoeConfig()) {
-    alert("Please complete your shoe configuration.");
+    // Show the modal instead of alert
+    const modal = document.getElementById("modal");
+    const modalMessage = document.getElementById("modalMessage");
+    modalMessage.textContent = "Please complete your shoe configuration.";
+    modal.style.display = "block";
     return;
   }
 
-  // Store the configuration in localStorage
   localStorage.setItem("shoeConfig", JSON.stringify(shoeConfig));
-
-  // Redirect to the order page
-  window.location.href = "/order.html"; // Redirect to the order page where the client will enter their details
+  showPage("order");
+  displayShoeSummary();
 });
+
+// Close the modal when clicking the close button
+document.getElementById("modalClose").addEventListener("click", () => {
+  const modal = document.getElementById("modal");
+  modal.style.display = "none";
+});
+
 
 // Validate if the shoe configuration is complete
 function validateShoeConfig() {

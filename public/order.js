@@ -107,9 +107,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
       if (!response.ok) throw new Error("Order submission failed.");
       const result = await response.json();
-
-      // Redirect to thank you page
-      alert("Order placed successfully!");
       localStorage.removeItem("shoeConfig"); // Clear the configuration from localStorage
       window.location.href = "thank-you.html"; // Redirect to thank-you page
     } catch (err) {

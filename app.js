@@ -25,18 +25,7 @@ const pages = {
     initials: null, // Initials can be empty or set to 'None selected'
   };
   
-  // Event: Order Button (Home Page)
-  document.getElementById("orderButton").addEventListener("click", () => {
-    if (!validateShoeConfig()) {
-      alert("Please complete your shoe configuration.");
-      return;
-    }
-  
-    localStorage.setItem("shoeConfig", JSON.stringify(shoeConfig));
-    showPage("order");
-    displayShoeSummary();
-  });
-  
+
   // Validate shoe configuration
   function validateShoeConfig() {
     return (
