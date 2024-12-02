@@ -21,7 +21,7 @@ body {
     flex: 1;
   }
 
-  .shoe-summary{
+  .summary-container{
     flex: 1;
     height: fit-content;
   }
@@ -32,7 +32,7 @@ body {
     margin-bottom: 10px;
   }
   
-  .shoe-summary, .client-info {
+  .shoe-summary, .client-info, .price-summary {
     margin-bottom: 20px;
     padding: 20px;
     border-radius: 8px;
@@ -117,3 +117,4 @@ body {
   display: flex;
   justify-content:space-between;
 }
+

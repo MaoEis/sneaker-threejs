@@ -694,9 +694,9 @@ document.querySelectorAll("#size").forEach((box) => {
 });
 
 // Handle size selection
-/*document.getElementById("size").addEventListener("change", (event) => {
+document.getElementById("size").addEventListener("change", (event) => {
   shoeConfig.size = parseInt(event.target.value.replace("size-", ""));
-});*/
+});
 
 // Handle initials
 document.getElementById("engraveButton").addEventListener("click", () => {
@@ -718,8 +718,12 @@ document.getElementById("orderButton").addEventListener("click", () => {
   localStorage.setItem("shoeConfig", JSON.stringify(shoeConfig));
   window.location.href = "/order.html"; // Redirect to the order page where the client will enter their details
   displayShoeSummary();
+  
 });
-
+document.getElementById("modalClose").addEventListener("click", () => {
+  const modal = document.getElementById("modal");
+  modal.style.display = "none";
+});
 
 // Validate if the shoe configuration is complete
 function validateShoeConfig() {

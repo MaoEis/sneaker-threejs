@@ -1,7 +1,16 @@
 document.addEventListener("DOMContentLoaded", function () {
+  const SHIPPING_COST = 20; // Fixed shipping cost
+  const COLOR_COST = 5; // Additional cost per selected color
+  const FABRIC_COST = 5; // Additional cost per selected fabric
+  const INITIALS_COST = 20; // Additional cost if initials are provided
+
   // Get the shoe configuration from localStorage
   const shoeConfig = JSON.parse(localStorage.getItem("shoeConfig"));
   const shoeSummary = document.getElementById("shoeSummary");
+  const quantityInput = document.getElementById("quantity");
+  const productPriceElement = document.getElementById("productPrice");
+  const shippingCostElement = document.getElementById("shippingCost");
+  const totalPriceElement = document.getElementById("totalPrice");
 
   // Mapping for readable shoe part names
   const partNames = {
@@ -14,7 +23,7 @@ document.addEventListener("DOMContentLoaded", function () {
     sole_top: "Top Sole",
   };
 
-  // Mapping for color names (Example: "#03f100" becomes "Green")
+  // Mapping for color names
   const colorNames = {
     "#03f100": "Deep burgundy",
     "#ed18b5": "Neon pink",
@@ -62,6 +71,36 @@ document.addEventListener("DOMContentLoaded", function () {
     window.location.href = "index.html"; // Redirect back to the home page if no configuration exists
   }
 
+  // Calculate price dynamically
+  function calculatePrice(quantity) {
+    const basePrice = 230; // Base price for one shoe
+    const colorCount = Object.keys(shoeConfig.colors || {}).length;
+    const fabricCount = Object.keys(shoeConfig.fabrics || {}).length;
+    const hasInitials = !!shoeConfig.initials && shoeConfig.initials.trim() !== "";
+
+    const additionalCost = colorCount * COLOR_COST + fabricCount * FABRIC_COST + (hasInitials ? INITIALS_COST : 0);
+    const productPrice = (basePrice + additionalCost) * quantity;
+    const totalPrice = productPrice + SHIPPING_COST;
+
+    // Update UI elements with calculated prices
+    productPriceElement.textContent = `$${productPrice.toFixed(2)}`;
+    shippingCostElement.textContent = `$${SHIPPING_COST.toFixed(2)}`;
+    totalPriceElement.textContent = `$${totalPrice.toFixed(2)}`;
+
+    return totalPrice; // Return total price for use in order data
+  }
+
+
+  // Initialize price display with default quantity
+  let quantity = parseInt(quantityInput.value, 10) || 1;
+  calculatePrice(quantity);
+
+  // Update price when quantity changes
+  quantityInput.addEventListener("input", (event) => {
+    quantity = parseInt(event.target.value, 10) || 1; // Default to 1 if invalid
+    calculatePrice(quantity);
+  });
+
   // Handle order form submission
   const orderForm = document.getElementById("orderForm");
   orderForm.addEventListener("submit", async (e) => {
@@ -78,10 +117,14 @@ document.addEventListener("DOMContentLoaded", function () {
       phone: document.getElementById("phone").value,
     };
 
+    const productPrice = calculatePrice(quantity) - SHIPPING_COST; // Exclude shipping cost
+    const totalPrice = productPrice + SHIPPING_COST;
+
     // Construct the order data dynamically
     const orderData = {
       customer: clientInfo,
-      totalPrice: calculatePrice(),
+      shippingCost: SHIPPING_COST, // Include shipping cost explicitly
+      totalPrice: totalPrice, // Total price including shipping
       status: "Pending",
       products: [
         {
@@ -89,8 +132,8 @@ document.addEventListener("DOMContentLoaded", function () {
           colors: shoeConfig.colors || {},
           fabrics: shoeConfig.fabrics || {},
           size: shoeConfig.size,
-          price: calculatePrice(), // Dynamic calculation
-          quantity: 1,
+          price: productPrice, // Product price without shipping
+          quantity: quantity,
           initials: shoeConfig.initials || "None",
         },
       ],
@@ -115,9 +158,3 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 });
-
-// Calculate price dynamically
-function calculatePrice() {
-  // Replace with dynamic price calculation logic as needed
-  return 230;
-}

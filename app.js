@@ -23,17 +23,49 @@ const pages = {
     fabrics: { default: "None selected" }, // Default value for fabric
     size: "None selected", // Default size
     initials: null, // Initials can be empty or set to 'None selected'
+    quantity: 1, 
   };
-  
+  const SHIPPING_COST = 20;
+
 
   // Validate shoe configuration
   function validateShoeConfig() {
     return (
       Object.keys(shoeConfig.colors).length > 0 &&
       Object.keys(shoeConfig.fabrics).length > 0 &&
-      shoeConfig.size
+      shoeConfig.size,
+      shoeConfig.quantity > 0 // Ensure quantity is greater than 0
+
     );
   }
+
+  // Function to calculate the product price based on quantity
+function calculateProductPrice(quantity = 1) {
+  const basePrice = 230; // Base price for one shoe
+  return basePrice * quantity;
+}
+
+// Function to update the price summary
+function updatePriceSummary(quantity) {
+  const productPrice = calculateProductPrice(quantity);
+  const totalPrice = productPrice + SHIPPING_COST;
+
+  document.getElementById("productPrice").textContent = `$${productPrice.toFixed(2)}`;
+  document.getElementById("shippingCost").textContent = `$${SHIPPING_COST.toFixed(2)}`;
+  document.getElementById("totalPrice").textContent = `$${totalPrice.toFixed(2)}`;
+}
+
+// Handle quantity changes
+document.getElementById("quantity").addEventListener("input", (event) => {
+  const quantity = parseInt(event.target.value, 10) || 1; // Default to 1 if invalid input
+  shoeConfig.quantity = quantity;
+  updatePriceSummary(quantity);
+});
+
+// Initially set up the price summary
+updatePriceSummary(shoeConfig.quantity);
+
+
   
   // Display shoe summary (Order Page)
   function displayShoeSummary() {
@@ -44,14 +76,27 @@ const pages = {
       alert("No shoe configuration found.");
       return;
     }
+
+    const totalPrice = calculatePrice(config.quantity);
+    const grandTotal = totalPrice + SHIPPING_COST;
+  
   
     summary.innerHTML = `
       <p>Colors: ${JSON.stringify(config.colors)}</p>
       <p>Fabrics: ${JSON.stringify(config.fabrics)}</p>
       <p>Size: ${config.size}</p>
       <p>Initials: ${config.initials || "None"}</p>
-    `;
-  }
+      <p>Quantity: ${config.quantity || 1}</p>
+      <p>Product Price: $${totalPrice.toFixed(2)}</p>
+      <p>Shipping Cost: $${SHIPPING_COST.toFixed(2)}</p>
+      <p><strong>Total Price: $${grandTotal.toFixed(2)}</strong></p>
+      `;
+}
+
+function calculatePrice(quantity = 1) {
+  const basePrice = 230; // Base price for one shoe
+  return basePrice * quantity;
+}
   
   // Event: Submit Order (Order Page)
   document.getElementById("orderForm").addEventListener("submit", async (e) => {
@@ -98,12 +143,8 @@ const pages = {
   document.getElementById("backHomeButton").addEventListener("click", () => {
     showPage("home");
   });
-  
-  // Calculate price dynamically
-  function calculatePrice() {
-    return 230; // Replace with dynamic logic if needed
-  }
-  
+
+
   // Initially show the Home Page
   showPage("home");
   

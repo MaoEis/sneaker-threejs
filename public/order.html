@@ -48,13 +48,26 @@
         </form>
       </div>
             <!-- Shoe Configuration Summary -->
+          <div class="summary-container">
             <div class="shoe-summary">
-  <h2>Product details</h2>
-  <div id="shoeSummary">
-    <!-- Shoe summary details are dynamically injected here -->
-  </div>
+              <h2>Product details</h2>
+                <div id="shoeSummary">
+                    <!-- Shoe summary details are dynamically injected here -->
+                  </div>
+                  <div class="quantity-container">
+                    <label for="quantity">Quantity:</label>
+                    <input type="number" id="quantity" min="1" value="1">
+                  </div>
+                </div>
+                <div class="price-summary">
+                <h2>Total cost</h2>
+                  <p>Product Price: <span id="productPrice">$0.00</span></p>
+                  <p>Shipping Cost: <span id="shippingCost">$20.00</span></p>
+                  <p><strong>Total Price: <span id="totalPrice">$20.00</span></strong></p>
+                </div>
+            </div>
+          </div>
     </div>
-</div>
 <script src="./order.js"></script>
 
 </body>
