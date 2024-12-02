@@ -119,7 +119,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const productPrice = calculatePrice(quantity) - SHIPPING_COST; // Exclude shipping cost
     const totalPrice = productPrice + SHIPPING_COST;
-
     // Construct the order data dynamically
     const orderData = {
       customer: clientInfo,
@@ -128,7 +127,6 @@ document.addEventListener("DOMContentLoaded", function () {
       status: "Pending",
       products: [
         {
-          productId: "1", // Replace with dynamic ID if available
           colors: shoeConfig.colors || {},
           fabrics: shoeConfig.fabrics || {},
           size: shoeConfig.size,
