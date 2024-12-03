@@ -22,7 +22,7 @@
         <a class="inside" id="inside" href="#">INSIDE</a>
         <a class="engraving" href="#">ADD INITIALS</a>
       </div>
-      <div class="options">
+      <div class="options_container">
         <div class="colour">
           <h2>COLOUR</h2>
           <div class="colorOption">
@@ -62,9 +62,14 @@
               <div class="box-fabric polyester" id="polyesterFabric" data-fabric="polyester" data-name="Polyester"></div>
             </div>
           </div>
-        </div>
       </div>
-      <div class="sizeOptions">
+      <div class="engrave">
+        <label for="engraveText">INITIALS YOU WANT TO ADD:</label>
+        <input type="text" id="engraveText" maxlength="3" placeholder="Max 3 chars" />
+        <button id="engraveButton">ADD INITIAL</button>
+      </div>
+    </div>
+     <div class="sizeOptions">
         <label for="size">SIZE</label>
         <select name="size" id="size">
           <option value="" disabled selected>Select</option>
@@ -76,13 +81,10 @@
           <option value="size-41">41</option>
           <option value="size-42">42</option>
         </select>
-      </div>
-      <div class="engrave">
-        <label for="engraveText">INITIALS YOU WANT TO ADD:</label>
-        <input type="text" id="engraveText" maxlength="3" placeholder="Max 3 chars" />
-        <button id="engraveButton">ADD INITIAL</button>
-      </div>
     </div>
+  </div>
+
+     
     <div class="btn">
       <a id="orderButton">ORDER</a>
     </div>
@@ -96,6 +98,12 @@
       <div class="shoe-part outside_2" id="shoe_outside_2"></div>
       <div class="shoe-part outside_3" id="shoe_outside_3"></div>
       <div class="shoe-part inside" id="shoe_inside"></div>
+    </div>
+    <div id="modal">
+      <div class="modal-container">
+        <p id="modalMessage"></p>
+        <button id="modalClose" >Close</button>
+      </div>
     </div>
     <script type="module" src="/main.js"></script>
   </body>

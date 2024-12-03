@@ -67,7 +67,7 @@ cylinder.position.set(0, -1.5, -0.7);
 
 // Add ambientlighting
 const ambientLight = new THREE.AmbientLight(0x404040, 1); // Soft white light
-ambientLight.castShadow = true;
+ambientLight.castShadow = false;
 scene.add(ambientLight);
 
 //directionallight
@@ -77,7 +77,7 @@ directionalLight.castShadow = true;
 scene.add(directionalLight);
 
 const hemiLight = new THREE.HemisphereLight(0xffffff, 0x444444, 1.25);
-hemiLight.castShadow = true;
+hemiLight.castShadow = false;
 scene.add(hemiLight);
 
 const dirLight = new THREE.DirectionalLight(0xffffff, 1.25);
@@ -166,6 +166,23 @@ loader.load(
     console.error("An error occurred while loading the model:", error);
   }
 );
+
+// Function to hide colour and fabric
+const hideOptions = () => {
+  const colour = document.querySelector(".colour");
+  const fabric = document.querySelector(".fabric");
+  colour.style.display = "none";
+  fabric.style.display = "none";
+};
+
+// Function to show colour and fabric
+const showOptions = () => {
+  const colour = document.querySelector(".colour");
+  const fabric = document.querySelector(".fabric");
+  colour.style.display = "flex";
+  fabric.style.display = "flex";
+};
+
 
 // move event select object in shoe when hoover
 //make a raycaster
@@ -289,7 +306,6 @@ let selectedFabric = null;
 
 function toggleDivs() {
   engravingDiv.style.display = "none";
-  optionsDiv.style.display = "flex";
 }
 
 window.addEventListener("click", (event) => {
@@ -321,6 +337,11 @@ window.addEventListener("click", (event) => {
       // Set the last selected object
       lastSelectedObject = intersectedObject;
       selectedShoePart = intersectedObject;
+
+      const colour = document.querySelector(".colour");
+      const fabric = document.querySelector(".fabric");
+      colour.style.display = "flex";
+      fabric.style.display = "flex";
 
       // Check if the intersected object has a name and animate the camera accordingly
       switch (intersectedObject.name) {
@@ -554,7 +575,6 @@ document.addEventListener("DOMContentLoaded", () => {
     event.preventDefault();
     console.log("Engrave link clicked");
     engravingDiv.style.display = "flex";
-    optionsDiv.style.display = "none";
     styleNavChildren(".engraving");
     animateCamera({ x: 1.5, y: 6, z: 3.5 }, ".engraving");
   });
@@ -695,17 +715,31 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // Three.js page logic
 document.getElementById("orderButton").addEventListener("click", () => {
+<<<<<<< HEAD
   // Check if the shoe configuration is valid
   // if (!validateShoeConfig()) {
   //   alert("Please complete your shoe configuration.");
   //   return;
   // }
+=======
+  if (!validateShoeConfig()) {
+    // Show the modal instead of alert
+    const modal = document.getElementById("modal");
+    const modalMessage = document.getElementById("modalMessage");
+    modalMessage.textContent = "Please complete your shoe configuration.";
+    modal.style.display = "block";
+    return;
+  }
+>>>>>>> 543335bb2820f8d0fb74dc5ac0b592bc18533e0e
 
-  // Store the configuration in localStorage
   localStorage.setItem("shoeConfig", JSON.stringify(shoeConfig));
-
-  // Redirect to the order page
   window.location.href = "/order.html"; // Redirect to the order page where the client will enter their details
+  displayShoeSummary();
+  
+});
+document.getElementById("modalClose").addEventListener("click", () => {
+  const modal = document.getElementById("modal");
+  modal.style.display = "none";
 });
 
 // Validate if the shoe configuration is complete
@@ -716,6 +750,26 @@ function validateShoeConfig() {
     shoeConfig.size !== "None selected" // Ensure size is selected
   );
 }
+
+// engraving on and off
+const engraving = document.querySelector(".engraving");
+const navLinks = document.querySelectorAll(".nav a");
+
+// Hide options when clicking on `.engraving`
+engraving.addEventListener("click", (event) => {
+  event.preventDefault();
+  hideOptions();
+});
+
+// Show options when clicking on other `.nav` links
+navLinks.forEach((link) => {
+  if (!link.classList.contains("engraving")) {
+    link.addEventListener("click", (event) => {
+      event.preventDefault();
+      showOptions();
+    });
+  }
+});
 
 // Rotate the cube and update controls
 function animate() {
