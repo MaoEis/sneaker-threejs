@@ -684,13 +684,22 @@ document.getElementById("engraveButton").addEventListener("click", () => {
   shoeConfig.initials = initials;
 });
 
+document.addEventListener("DOMContentLoaded", () => {
+    const placeOrderButton = document.getElementById("place-order-button");
+    if (placeOrderButton) {
+        placeOrderButton.addEventListener("click", () => {
+            window.location.href = "/thankyou.html";
+        });
+    }
+});
+
 // Three.js page logic
 document.getElementById("orderButton").addEventListener("click", () => {
   // Check if the shoe configuration is valid
-  if (!validateShoeConfig()) {
-    alert("Please complete your shoe configuration.");
-    return;
-  }
+  // if (!validateShoeConfig()) {
+  //   alert("Please complete your shoe configuration.");
+  //   return;
+  // }
 
   // Store the configuration in localStorage
   localStorage.setItem("shoeConfig", JSON.stringify(shoeConfig));
