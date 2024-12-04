@@ -704,14 +704,14 @@ document.getElementById("engraveButton").addEventListener("click", () => {
   shoeConfig.initials = initials;
 });
 
-document.addEventListener("DOMContentLoaded", () => {
-    const placeOrderButton = document.getElementById("place-order-button");
-    if (placeOrderButton) {
-        placeOrderButton.addEventListener("click", () => {
-            window.location.href = "/thankyou.html";
-        });
-    }
-});
+// document.addEventListener("DOMContentLoaded", () => {
+//     const placeOrderButton = document.getElementById("place-order-button");
+//     if (placeOrderButton) {
+//         placeOrderButton.addEventListener("click", () => {
+//             window.location.href = "/thankyou.html";
+//         });
+//     }
+// });
 
 // Three.js page logic
 document.getElementById("orderButton").addEventListener("click", () => {
