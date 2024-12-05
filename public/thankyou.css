@@ -94,6 +94,11 @@
     flex-direction: row;
     justify-content: space-between;
   }
+
+  .order_info_date{
+    display: block;
+  
+  }
   
   .order_info_status{
     display: flex;
@@ -103,7 +108,7 @@
     margin-bottom: 10px;
   }
   
-  .status-pending {
+  .order-status {
     background-color: #ded2ff;
     padding: 10px 10px;
     border: none;
