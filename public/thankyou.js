@@ -1,63 +1,86 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const orderData = JSON.parse(localStorage.getItem("orderData"));
-
-    if (!orderData) {
-        alert("No order data found.");
-        window.location.href = "index.html"; // Redirect if no order data
-        return;
+document.addEventListener("DOMContentLoaded", async () => {
+    const orderId = localStorage.getItem("orderId"); // Retrieve the order ID from localStorage or other storage
+    console.log("Order ID from localStorage:", orderId);
+  
+    if (!orderId) {
+      console.error("Order ID is missing. Ensure it is saved in localStorage.");
+      return;
     }
-
-    // Populate customer details
-    const customerInfoContainer = document.querySelector(".order_info_contact");
-    customerInfoContainer.innerHTML = `
-        <h2>Customer</h2>
-        <p><strong>Contact info:</strong></p>
-        <p>${orderData.customer.firstName} ${orderData.customer.lastName}</p>
-        <p>${orderData.customer.email}</p>
-        <p>${orderData.customer.phone}</p>
-    `;
-
-    const shippingAddressContainer = document.querySelector(".order_info_shipping_adress");
-    shippingAddressContainer.innerHTML = `
-        <p><strong>Ship to:</strong></p>
-        <p>${orderData.customer.firstName} ${orderData.customer.lastName}</p>
-        <p>${orderData.customer.address}</p>
-        <p>${orderData.customer.city}, ${orderData.customer.postalCode}</p>
-    `;
-
-    // Populate product details
-    const productDetailsContainer = document.querySelector(".product_details tbody");
-    const product = orderData.products[0];
-    const colors = Object.entries(product.colors)
-        .map(([part, color]) => `<strong>${part}:</strong> ${color}`)
-        .join("<br>");
-    const fabrics = Object.entries(product.fabrics)
-        .map(([part, fabric]) => `<strong>${part}:</strong> ${fabric}`)
-        .join("<br>");
-
-    productDetailsContainer.innerHTML = `
-        <tr>
-            <td><img src="https://via.placeholder.com/150" alt="Product Image"></td>
-            <td>${colors}</td>
-            <td>${fabrics}</td>
-            <td>${product.size}</td>
-            <td>$${product.price.toFixed(2)}</td>
-            <td>${product.quantity}</td>
-            <td>$${(product.price * product.quantity).toFixed(2)}</td>
-        </tr>
-    `;
-
-    // Populate shipping and payment details
-    const shippingContainer = document.querySelector(".order_info_shipping_subcontainer");
-    shippingContainer.innerHTML = `
-        <p><strong>Shipping Method:</strong> BPost</p>
-        <p>$${orderData.shippingCost.toFixed(2)}</p>
-    `;
-
-    const paymentContainer = document.querySelector(".order_info_payment_subcontainer");
-    paymentContainer.innerHTML = `
-        <p><strong>Subtotal:</strong> $${product.price.toFixed(2)}</p>
-        <p><strong>Shipping:</strong> $${orderData.shippingCost.toFixed(2)}</p>
-        <p><strong>Total:</strong> $${orderData.totalPrice.toFixed(2)}</p>
-    `;
-});
+  
+    const tableBody = document.querySelector("#productDetailsTable tbody");
+  
+    try {
+      const response = await fetch(`https://sneaker-config.onrender.com/api/v1/orders/${orderId}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          // Include Authorization header if required
+          Authorization: `Bearer ${localStorage.getItem("token")}`
+        }
+      });
+  
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Failed to fetch order details: ${errorText}`);
+      }
+  
+      const order = await response.json();
+  
+      order.products.forEach((product) => {
+        const row = document.createElement("tr");
+  
+        // Image Column
+        const imageCell = document.createElement("td");
+        const image = document.createElement("img");
+        image.src = "https://via.placeholder.com/150"; // Replace with actual image URL if available
+        image.alt = "Product Image";
+        imageCell.appendChild(image);
+        row.appendChild(imageCell);
+  
+        // Product ID Column
+        const productIdCell = document.createElement("td");
+        productIdCell.textContent = product._id.slice(-8); // Display last 8 characters of the Product ID
+        row.appendChild(productIdCell);
+  
+        // Colors Column
+        const colorsCell = document.createElement("td");
+        colorsCell.innerHTML = Object.entries(product.colors || {})
+          .map(([part, color]) => `<strong>${part}:</strong> ${color}`)
+          .join("<br>");
+        row.appendChild(colorsCell);
+  
+        // Fabrics Column
+        const fabricsCell = document.createElement("td");
+        fabricsCell.innerHTML = Object.entries(product.fabrics || {})
+          .map(([part, fabric]) => `<strong>${part}:</strong> ${fabric}`)
+          .join("<br>");
+        row.appendChild(fabricsCell);
+  
+        // Size Column
+        const sizeCell = document.createElement("td");
+        sizeCell.textContent = product.size || "N/A";
+        row.appendChild(sizeCell);
+  
+        // Price Column
+        const priceCell = document.createElement("td");
+        priceCell.textContent = `$${product.price.toFixed(2)}`;
+        row.appendChild(priceCell);
+  
+        // Quantity Column
+        const quantityCell = document.createElement("td");
+        quantityCell.textContent = product.quantity;
+        row.appendChild(quantityCell);
+  
+        // Total Column
+        const totalCell = document.createElement("td");
+        totalCell.textContent = `$${(product.price * product.quantity).toFixed(2)}`;
+        row.appendChild(totalCell);
+  
+        tableBody.appendChild(row);
+      });
+    } catch (error) {
+      console.error("Error fetching order details:", error);
+      alert("Failed to load order details. Please try again.");
+    }
+  });
+  

@@ -149,7 +149,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
       if (!response.ok) throw new Error("Order submission failed.");
       const result = await response.json();
-      localStorage.removeItem("shoeConfig"); // Clear the configuration from localStorage
+      localStorage.setItem("orderId", result.orderId); // Ensure this is set after the order is submitted successfully
+      console.log("Order ID saved to localStorage:", result.orderId);
+
+      localStorage.removeItem("shoeConfig");
       window.location.href = "thankyou.html"; // Redirect to thank-you page
     } catch (err) {
       console.error("Error submitting order:", err);
