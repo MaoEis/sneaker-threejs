@@ -57,7 +57,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         // Populate product details
         const productDetailsContainer = document.querySelector(".product_details tbody");
-        const subtotal = order.products.reduce((total, product) => total + product.price * product.quantity, 0);
+        const subtotal = order.products.reduce((total, product) => total + product.price, 0); // Sum of product prices (already includes quantity)
 
         order.products.forEach((product) => {
             const colors = Object.entries(product.colors)
@@ -66,6 +66,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             const fabrics = Object.entries(product.fabrics)
                 .map(([part, fabric]) => `<strong>${part}:</strong> ${fabric}`)
                 .join("<br>");
+                const unitPrice = product.price / product.quantity; // Correct unit price
 
             productDetailsContainer.innerHTML += `
                 <tr>
@@ -74,17 +75,16 @@ document.addEventListener("DOMContentLoaded", async () => {
                     <td>${colors}</td>
                     <td>${fabrics}</td>
                     <td>${product.size}</td>
-                    <td>$${product.price.toFixed(2)}</td>
+                    <td>$${unitPrice.toFixed(2)}</td> <!-- Unit price -->
                     <td>${product.quantity}</td>
-                    <td>$${(product.price * product.quantity).toFixed(2)}</td>
+                    <td>$${product.price.toFixed(2)}</td> <!-- Total price for this product -->
                 </tr>
             `;
         });
 
-        // Calculate and display the total
-        const shippingCost = order.shippingCost || 0;
-        const total = subtotal + shippingCost;
-
+        const shippingCost = order.shippingCost || 0; // Retrieve shipping cost
+        const total = subtotal + shippingCost; // Total = Subtotal + Shipping
+        
         // Populate shipping and payment details
         const shippingContainer = document.querySelector(".order_info_shipping_subcontainer");
         shippingContainer.innerHTML = `
