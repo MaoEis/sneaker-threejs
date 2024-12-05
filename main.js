@@ -704,8 +704,22 @@ document.getElementById("engraveButton").addEventListener("click", () => {
   shoeConfig.initials = initials;
 });
 
+// document.addEventListener("DOMContentLoaded", () => {
+//     const placeOrderButton = document.getElementById("place-order-button");
+//     if (placeOrderButton) {
+//         placeOrderButton.addEventListener("click", () => {
+//             window.location.href = "/thankyou.html";
+//         });
+//     }
+// });
+
 // Three.js page logic
 document.getElementById("orderButton").addEventListener("click", () => {
+  // Check if the shoe configuration is valid
+  // if (!validateShoeConfig()) {
+  //   alert("Please complete your shoe configuration.");
+  //   return;
+  // }
   if (!validateShoeConfig()) {
     // Show the modal instead of alert
     const modal = document.getElementById("modal");
