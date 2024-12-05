@@ -138,6 +138,7 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     console.log("Order Data being sent:", orderData); // Debugging log
+    localStorage.setItem("orderData", JSON.stringify(orderData));
 
     try {
       const response = await fetch("https://sneaker-config.onrender.com/api/v1/orders", {
