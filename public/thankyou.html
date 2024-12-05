@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>thank you!</title>
   <link rel="stylesheet" href="./thankyou.css">
-  <script src="./thankyou.js"></script>
+  <script src="./thankyou.js" defer></script>
 </head>
 <body>
   <div class="body_template">
@@ -75,10 +75,9 @@
           <p> Leen Dehaes </p>
           <p>Voerhoek 2A</p>
           <p>3080 Vossem</p>
-        <div class="order_info_date">
-          <p><strong>Order date:</strong></p>
-        <p>25/11/2024</p>
-        </div>
+          <div class="order_info_date">
+            <p><strong>Order date:</strong> <span id="orderDate"></span></p>
+          </div>
       </div>
       </div>
     </div>

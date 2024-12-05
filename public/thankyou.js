@@ -20,10 +20,22 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         const order = await response.json();
 
-        // Populate the order number
-        const orderNumberElement = document.getElementById("orderNumber");
-        orderNumberElement.textContent = `#${order._id.slice(-8)}`; // Show last 8 characters of order ID
+         // Populate the order number
+         const orderNumberElement = document.getElementById("orderNumber");
+         orderNumberElement.textContent = `#${order._id.slice(-8)}`; // Show last 8 characters of order ID
+ 
+         // Format the order creation date
+         const orderDate = new Date(order.createdAt).toLocaleDateString(undefined, {
+             year: "numeric",
+             month: "long",
+             day: "numeric",
+         });
+         console.log("Formatted Order Date:", orderDate);
 
+         // Populate the order date
+         const orderDateElement = document.getElementById("orderDate");
+         orderDateElement.textContent = orderDate;
+ 
         // Populate customer details
         const customerInfoContainer = document.querySelector(".order_info_contact");
         customerInfoContainer.innerHTML = `
