@@ -1,86 +1,88 @@
 document.addEventListener("DOMContentLoaded", async () => {
-    const orderId = localStorage.getItem("orderId"); // Retrieve the order ID from localStorage or other storage
-    console.log("Order ID from localStorage:", orderId);
-  
+    const orderId = localStorage.getItem("orderId");
+
+    // Check if orderId exists
     if (!orderId) {
-      console.error("Order ID is missing. Ensure it is saved in localStorage.");
-      return;
+        console.error("Order ID is missing from localStorage.");
+        alert("Order ID is missing. Please try again.");
+        window.location.href = "index.html"; // Redirect to homepage
+        return;
     }
-  
-    const tableBody = document.querySelector("#productDetailsTable tbody");
-  
+
+    console.log("Order ID from localStorage:", orderId); // Debugging log
+
     try {
-      const response = await fetch(`https://sneaker-config.onrender.com/api/v1/orders/${orderId}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          // Include Authorization header if required
-          Authorization: `Bearer ${localStorage.getItem("token")}`
+        // Fetch order details
+        const response = await fetch(`https://sneaker-config.onrender.com/api/v1/orders/${orderId}`);
+        if (!response.ok) {
+            throw new Error(`Failed to fetch order details: ${await response.text()}`);
         }
-      });
-  
-      if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(`Failed to fetch order details: ${errorText}`);
-      }
-  
-      const order = await response.json();
-  
-      order.products.forEach((product) => {
-        const row = document.createElement("tr");
-  
-        // Image Column
-        const imageCell = document.createElement("td");
-        const image = document.createElement("img");
-        image.src = "https://via.placeholder.com/150"; // Replace with actual image URL if available
-        image.alt = "Product Image";
-        imageCell.appendChild(image);
-        row.appendChild(imageCell);
-  
-        // Product ID Column
-        const productIdCell = document.createElement("td");
-        productIdCell.textContent = product._id.slice(-8); // Display last 8 characters of the Product ID
-        row.appendChild(productIdCell);
-  
-        // Colors Column
-        const colorsCell = document.createElement("td");
-        colorsCell.innerHTML = Object.entries(product.colors || {})
-          .map(([part, color]) => `<strong>${part}:</strong> ${color}`)
-          .join("<br>");
-        row.appendChild(colorsCell);
-  
-        // Fabrics Column
-        const fabricsCell = document.createElement("td");
-        fabricsCell.innerHTML = Object.entries(product.fabrics || {})
-          .map(([part, fabric]) => `<strong>${part}:</strong> ${fabric}`)
-          .join("<br>");
-        row.appendChild(fabricsCell);
-  
-        // Size Column
-        const sizeCell = document.createElement("td");
-        sizeCell.textContent = product.size || "N/A";
-        row.appendChild(sizeCell);
-  
-        // Price Column
-        const priceCell = document.createElement("td");
-        priceCell.textContent = `$${product.price.toFixed(2)}`;
-        row.appendChild(priceCell);
-  
-        // Quantity Column
-        const quantityCell = document.createElement("td");
-        quantityCell.textContent = product.quantity;
-        row.appendChild(quantityCell);
-  
-        // Total Column
-        const totalCell = document.createElement("td");
-        totalCell.textContent = `$${(product.price * product.quantity).toFixed(2)}`;
-        row.appendChild(totalCell);
-  
-        tableBody.appendChild(row);
-      });
+
+        const order = await response.json();
+
+        // Populate the order number
+        const orderNumberElement = document.getElementById("orderNumber");
+        orderNumberElement.textContent = `#${order._id.slice(-8)}`; // Show last 8 characters of order ID
+
+        // Populate customer details
+        const customerInfoContainer = document.querySelector(".order_info_contact");
+        customerInfoContainer.innerHTML = `
+            <h2>Customer</h2>
+            <p><strong>Contact info:</strong></p>
+            <p>${order.customer.firstName} ${order.customer.lastName}</p>
+            <p>${order.customer.email}</p>
+            <p>${order.customer.phone}</p>
+        `;
+
+        // Populate shipping details
+        const shippingAddressContainer = document.querySelector(".order_info_shipping_adress");
+        shippingAddressContainer.innerHTML = `
+            <p><strong>Ship to:</strong></p>
+            <p>${order.customer.firstName} ${order.customer.lastName}</p>
+            <p>${order.customer.address}</p>
+            <p>${order.customer.city}, ${order.customer.postalCode}</p>
+        `;
+
+        // Populate product details
+        const productDetailsContainer = document.querySelector(".product_details tbody");
+        order.products.forEach((product) => {
+            const colors = Object.entries(product.colors)
+                .map(([part, color]) => `<strong>${part}:</strong> ${color}`)
+                .join("<br>");
+            const fabrics = Object.entries(product.fabrics)
+                .map(([part, fabric]) => `<strong>${part}:</strong> ${fabric}`)
+                .join("<br>");
+
+            productDetailsContainer.innerHTML += `
+                <tr>
+                    <td><img src="https://via.placeholder.com/150" alt="Product Image"></td>
+                    <td>${product._id ? product._id.slice(-8) : "N/A"}</td> <!-- Use product ID -->
+                    <td>${colors}</td>
+                    <td>${fabrics}</td>
+                    <td>${product.size}</td>
+                    <td>$${product.price.toFixed(2)}</td>
+                    <td>${product.quantity}</td>
+                    <td>$${(product.price * product.quantity).toFixed(2)}</td>
+                </tr>
+            `;
+        });
+
+        // Populate shipping and payment details
+        const shippingContainer = document.querySelector(".order_info_shipping_subcontainer");
+        shippingContainer.innerHTML = `
+            <p><strong>Shipping Method:</strong> BPost</p>
+            <p>$${order.shippingCost.toFixed(2)}</p>
+        `;
+
+        const paymentContainer = document.querySelector(".order_info_payment_subcontainer");
+        paymentContainer.innerHTML = `
+            <p><strong>Subtotal:</strong> $${order.products.reduce((total, product) => total + product.price * product.quantity, 0).toFixed(2)}</p>
+            <p><strong>Shipping:</strong> $${order.shippingCost.toFixed(2)}</p>
+            <p><strong>Total:</strong> $${order.totalPrice.toFixed(2)}</p>
+        `;
     } catch (error) {
-      console.error("Error fetching order details:", error);
-      alert("Failed to load order details. Please try again.");
+        console.error("Error fetching order details:", error);
+        alert("Failed to load order details. Please try again.");
+        window.location.href = "index.html"; // Redirect on failure
     }
-  });
-  
+});
