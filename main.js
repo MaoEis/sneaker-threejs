@@ -136,11 +136,11 @@ loader.load(
 
     scene.add(shoe);
 
-    shoe.traverse((child) => {
+    /*shoe.traverse((child) => {
       if (child.isMesh) {
         child.castShadow = true;
       }
-    });
+    });*/
 
     const lacesMesh = shoe.getObjectByName("laces");
     const soleBottomMesh = shoe.getObjectByName("sole_bottom");
@@ -440,7 +440,7 @@ document.querySelectorAll(".fabricOption .box-fabric").forEach((box) => {
               normalMap.wrapS = normalMap.wrapT = THREE.RepeatWrapping;
               normalMap.repeat.set(4, 4); // Adjust the repeat value as needed
               normalMap.anisotropy = 16; // Optional: improve texture quality
-              normalMap.scale.set(0.5, 0.5); // Adjust the normal map scale as needed
+              //normalMap.scale.set(0.5, 0.5); // Adjust the normal map scale as needed
             }
           ),
           roughnessMap: new THREE.TextureLoader().load(
@@ -474,7 +474,7 @@ document.querySelectorAll(".fabricOption .box-fabric").forEach((box) => {
               normalMap.wrapS = normalMap.wrapT = THREE.RepeatWrapping;
               normalMap.repeat.set(4, 4); // Adjust the repeat value as needed
               normalMap.anisotropy = 16; // Optional: improve texture quality
-              normalMap.scale.set(0.5, 0.5); // Adjust the normal map scale as needed
+             // normalMap.scale.set(0.5, 0.5); // Adjust the normal map scale as needed
             }
           ),
           roughnessMap: new THREE.TextureLoader().load(
