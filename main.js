@@ -136,11 +136,11 @@ loader.load(
 
     scene.add(shoe);
 
-    /*shoe.traverse((child) => {
+    shoe.traverse((child) => {
       if (child.isMesh) {
         child.castShadow = true;
       }
-    });*/
+    });
 
     const lacesMesh = shoe.getObjectByName("laces");
     const soleBottomMesh = shoe.getObjectByName("sole_bottom");
