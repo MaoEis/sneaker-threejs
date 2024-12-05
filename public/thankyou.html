@@ -1,13 +1,23 @@
-<template>
-    <div class="body_template">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>thank you!</title>
+  <link rel="stylesheet" href="./thankyou.css">
+</head>
+<body>
+  <div class="body_template">
+    <button class="back_button" onclick="window.location.href='https://www.swear-london.com/shop'">← Continue browsing</button>
     <div class="order_info_status">
-          <h2>Thank you for your order!</h2> 
-          <p>Order status</p>      
-        </div>
+      <h2>Thank you for your order!</h2> 
+      <div class="order-status">pending</div>
+    </div>
+    <p>Your order number: #123456. You order is confirmed and you will receive an email confirmation shortly.</p>
     <div class="order_details_container" >
       <div class="order_details_subcontainer">
         <!-- Product Details -->
-        <div>
+        <div class="product_details">
         <h2>Products</h2>
          <table>
           <thead>
@@ -101,261 +111,8 @@
           <p>€230</p>
         </div>
       </div>
-  
       </div>
     </div>
   </div>
-  </template>
-  
-  
-  
-  <style scoped>
-  .body_template {
-    background-color: #f9f9f9;
-    padding: 50px;
-  }
-  .order_details_container {
-    display: flex;
-    flex-direction: row; /* Stack items vertically */
-    gap: 20px; /* Space between blocks */
-    border-radius: 8px;
-  }
-  
-  .order_details_subcontainer {
-    display: flex;
-    flex-direction: column; /* Arrange items horizontally */
-    gap: 20px; /* Space between columns */
-    flex: 3;
-  }
-  
-  .order_info, 
-  .product_details,
-  .order_info_shipping,
-  .order_info_payment {
-    background-color: white; /* Light background for blocks */
-    border-radius: 10px; /* Rounded corners for each block */
-    padding: 20px; /* Internal padding */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for each block */
-  }
-  
-  .order_info{
-    flex: 1;
-  }
-  
-  h1, h2 {
-    color: #333;
-    margin-bottom: 10px;
-  }
-  
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
-  }
-  
-  th, td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: left;
-    border-left: none;
-    border-right: none;
-  }
-  
-  th {
-    background-color: #f4f4f4;
-    font-weight: bold;
-  }
-  
-  td{
-    vertical-align: top; /* Add this line to align content to the top */
-  
-  }
-  
-  .back_button {
-    display: inline-block;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
-    text-decoration: underline; /* Add this line to underline the text */
-  
-  }
-  
-  .back_button:hover{
-    opacity: 0.8;
-  }
-  
-  
-  .sub-title {
-    font-weight: bold;
-    text-transform: uppercase;
-  }
-  .order_info_shipping_subcontainer{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-  }
-  .order_info_payment_subcontainer p{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-  }
-  
-  .order_info_status{
-    display: flex;
-    flex-direction: row;
-    gap: 20px;
-    align-items: center;
-    margin-bottom: 10px;
-  }
-  
-  .status-pending {
-    background-color: #ded2ff;
-    padding: 10px 10px;
-    border: none;
-    border-radius: 4px;
-    font-size: 14px;
-  }
-  
-  .status-delivered {
-    background-color: #9cff9a;
-    padding: 10px 10px;
-    border: none;
-    border-radius: 4px;
-    font-size: 14px;
-  }
-  
-  .status-cancelled {
-    background-color: #ff9a9c;
-    padding: 10px 10px;
-    border: none;
-    border-radius: 4px;
-    font-size: 14px;
-  }
-  .delete_button{
-    padding: 10px 20px;
-    background-color: #fc5f61;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-    align-self: center; 
-  }
-  
-  .delete_button:hover {
-    opacity: 0.9;
-  }
-  
-  
-  .order_info{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-  
-  .confirmation-modal {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: #ffffff; /* Pure white background */
-    padding: 30px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    z-index: 1000;
-    width: 400px;
-    text-align: center;
-  }
-  
-  .confirmation-modal p {
-    font-size: 16px;
-    color: #333;
-    margin-bottom: 20px;
-  }
-  
-  .confirmation-modal button {
-    margin: 10px 5px;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    font-size: 14px;
-    cursor: pointer;
-    transition: all 0.3s ease-in-out;
-    background-color: #28a745;
-    color: white
-  }
-  
-  .confirmation-modal button:hover {
-    opacity: 0.9;
-  }
-  .confirmation-modal button:last-child {
-    background-color: #dc3545; 
-  }
-  
-  .confirmation-modal button:last-child:hover {
-    opacity: 0.9;
-  }
-  .confirm-button {
-    background-color: #fc5f61;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .cancel-button {
-    background-color: #f4f4f4;
-    padding: 10px 20px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .confirm-button:hover,
-  .cancel-button:hover {
-    opacity: 0.8;
-  }
-  
-  .success-modal {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: #f0fff4; /* Light green background for success */
-    padding: 30px;
-    border: 1px solid #c3e6cb;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    z-index: 1000;
-    width: 400px;
-    text-align: center;
-  }
-  
-  .success-modal p {
-    font-size: 16px;
-    color: #155724; /* Dark green for text */
-    margin-bottom: 20px;
-    font-weight: bold;
-  }
-  
-  .success-modal button {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    background-color: #28a745; /* Green button */
-    color: white;
-    font-size: 14px;
-    cursor: pointer;
-    transition: all 0.3s ease-in-out;
-  }
-  
-  .success-modal button:hover {
-    background-color: #218838; /* Darker green on hover */
-  }
-  
-  
-  </style>
+</body>
+</html>
