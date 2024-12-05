@@ -11,6 +11,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const productPriceElement = document.getElementById("productPrice");
   const shippingCostElement = document.getElementById("shippingCost");
   const totalPriceElement = document.getElementById("totalPrice");
+  const subtotalElement = document.getElementById("subtotal");
 
   // Mapping for readable shoe part names
   const partNames = {
@@ -78,27 +79,38 @@ document.addEventListener("DOMContentLoaded", function () {
     const fabricCount = Object.keys(shoeConfig.fabrics || {}).length;
     const hasInitials = !!shoeConfig.initials && shoeConfig.initials.trim() !== "";
 
+    // Calculate the additional cost based on selected colors, fabrics, and initials
     const additionalCost = colorCount * COLOR_COST + fabricCount * FABRIC_COST + (hasInitials ? INITIALS_COST : 0);
-    const productPrice = (basePrice + additionalCost) * quantity;
-    const totalPrice = productPrice + SHIPPING_COST;
+
+    // Product price stays constant
+    const productPrice = basePrice + additionalCost;
+
+    // Subtotal is productPrice * quantity
+    const subtotal = productPrice * quantity;
+
+    // Total price is subtotal + shipping cost
+    const totalPrice = subtotal + SHIPPING_COST;
 
     // Update UI elements with calculated prices
     productPriceElement.textContent = `$${productPrice.toFixed(2)}`;
+    subtotalElement.textContent = `$${subtotal.toFixed(2)}`;
     shippingCostElement.textContent = `$${SHIPPING_COST.toFixed(2)}`;
     totalPriceElement.textContent = `$${totalPrice.toFixed(2)}`;
 
-    return totalPrice; // Return total price for use in order data
+    return { productPrice, subtotal, totalPrice }; // Return necessary values for order data
   }
-
 
   // Initialize price display with default quantity
   let quantity = parseInt(quantityInput.value, 10) || 1;
-  calculatePrice(quantity);
+  const priceData = calculatePrice(quantity);
 
   // Update price when quantity changes
   quantityInput.addEventListener("input", (event) => {
     quantity = parseInt(event.target.value, 10) || 1; // Default to 1 if invalid
-    calculatePrice(quantity);
+    const updatedPriceData = calculatePrice(quantity);
+    priceData.productPrice = updatedPriceData.productPrice;
+    priceData.subtotal = updatedPriceData.subtotal;
+    priceData.totalPrice = updatedPriceData.totalPrice;
   });
 
   // Handle order form submission
@@ -117,20 +129,18 @@ document.addEventListener("DOMContentLoaded", function () {
       phone: document.getElementById("phone").value,
     };
 
-    const productPrice = calculatePrice(quantity) - SHIPPING_COST; // Exclude shipping cost
-    const totalPrice = productPrice + SHIPPING_COST;
     // Construct the order data dynamically
     const orderData = {
       customer: clientInfo,
       shippingCost: SHIPPING_COST, // Include shipping cost explicitly
-      totalPrice: totalPrice, // Total price including shipping
+      totalPrice: priceData.totalPrice, // Total price including shipping
       status: "Pending",
       products: [
         {
           colors: shoeConfig.colors || {},
           fabrics: shoeConfig.fabrics || {},
           size: shoeConfig.size,
-          price: productPrice, // Product price without shipping
+          price: priceData.productPrice, // Product price without shipping
           quantity: quantity,
           initials: shoeConfig.initials || "None",
         },

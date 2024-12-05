@@ -57,7 +57,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         // Populate product details
         const productDetailsContainer = document.querySelector(".product_details tbody");
-        const subtotal = order.products.reduce((total, product) => total + product.price, 0); // Sum of product prices (already includes quantity)
+        let subtotal = 0; // Initialize subtotal
 
         order.products.forEach((product) => {
             const colors = Object.entries(product.colors)
@@ -66,7 +66,19 @@ document.addEventListener("DOMContentLoaded", async () => {
             const fabrics = Object.entries(product.fabrics)
                 .map(([part, fabric]) => `<strong>${part}:</strong> ${fabric}`)
                 .join("<br>");
-                const unitPrice = product.price / product.quantity; // Correct unit price
+            
+            // Calculate the product price (base price + additional costs)
+            const basePrice = 230; // Base price for one shoe
+            const colorCount = Object.keys(product.colors || {}).length;
+            const fabricCount = Object.keys(product.fabrics || {}).length;
+            const additionalCost = colorCount * 5 + fabricCount * 5; // Assuming 5 for each color/fabric
+            const productPrice = basePrice + additionalCost; // Final product price for one unit
+
+            // Calculate total price (productPrice * quantity)
+            const totalPrice = productPrice * product.quantity;
+
+            // Add to subtotal
+            subtotal += totalPrice;
 
             productDetailsContainer.innerHTML += `
                 <tr>
@@ -75,9 +87,9 @@ document.addEventListener("DOMContentLoaded", async () => {
                     <td>${colors}</td>
                     <td>${fabrics}</td>
                     <td>${product.size}</td>
-                    <td>$${unitPrice.toFixed(2)}</td> <!-- Unit price -->
+                    <td>$${productPrice.toFixed(2)}</td> <!-- Unit price -->
                     <td>${product.quantity}</td>
-                    <td>$${product.price.toFixed(2)}</td> <!-- Total price for this product -->
+                    <td>$${totalPrice.toFixed(2)}</td> <!-- Total price for this product -->
                 </tr>
             `;
         });
