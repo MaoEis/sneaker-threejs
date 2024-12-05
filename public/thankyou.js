@@ -20,22 +20,22 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         const order = await response.json();
 
-         // Populate the order number
-         const orderNumberElement = document.getElementById("orderNumber");
-         orderNumberElement.textContent = `#${order._id.slice(-8)}`; // Show last 8 characters of order ID
- 
-         // Format the order creation date
-         const orderDate = new Date(order.createdAt).toLocaleDateString(undefined, {
-             year: "numeric",
-             month: "long",
-             day: "numeric",
-         });
-         console.log("Formatted Order Date:", orderDate);
+        // Populate the order number
+        const orderNumberElement = document.getElementById("orderNumber");
+        orderNumberElement.textContent = `#${order._id.slice(-8)}`; // Show last 8 characters of order ID
 
-         // Populate the order date
-         const orderDateElement = document.getElementById("orderDate");
-         orderDateElement.textContent = orderDate;
- 
+        // Format the order creation date
+        const orderDate = new Date(order.createdAt).toLocaleDateString(undefined, {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+        });
+        console.log("Formatted Order Date:", orderDate);
+
+        // Populate the order date
+        const orderDateElement = document.getElementById("orderDate");
+        orderDateElement.textContent = orderDate;
+
         // Populate customer details
         const customerInfoContainer = document.querySelector(".order_info_contact");
         customerInfoContainer.innerHTML = `
@@ -57,6 +57,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         // Populate product details
         const productDetailsContainer = document.querySelector(".product_details tbody");
+        const subtotal = order.products.reduce((total, product) => total + product.price * product.quantity, 0);
+
         order.products.forEach((product) => {
             const colors = Object.entries(product.colors)
                 .map(([part, color]) => `<strong>${part}:</strong> ${color}`)
@@ -79,18 +81,22 @@ document.addEventListener("DOMContentLoaded", async () => {
             `;
         });
 
+        // Calculate and display the total
+        const shippingCost = order.shippingCost || 0;
+        const total = subtotal + shippingCost;
+
         // Populate shipping and payment details
         const shippingContainer = document.querySelector(".order_info_shipping_subcontainer");
         shippingContainer.innerHTML = `
             <p><strong>Shipping Method:</strong> BPost</p>
-            <p>$${order.shippingCost.toFixed(2)}</p>
+            <p>$${shippingCost.toFixed(2)}</p>
         `;
 
         const paymentContainer = document.querySelector(".order_info_payment_subcontainer");
         paymentContainer.innerHTML = `
-            <p><strong>Subtotal:</strong> $${order.products.reduce((total, product) => total + product.price * product.quantity, 0).toFixed(2)}</p>
-            <p><strong>Shipping:</strong> $${order.shippingCost.toFixed(2)}</p>
-            <p><strong>Total:</strong> $${order.totalPrice.toFixed(2)}</p>
+            <p><strong>Subtotal:</strong> $${subtotal.toFixed(2)}</p>
+            <p><strong>Shipping:</strong> $${shippingCost.toFixed(2)}</p>
+            <p><strong>Total:</strong> $${total.toFixed(2)}</p>
         `;
     } catch (error) {
         console.error("Error fetching order details:", error);
