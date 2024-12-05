@@ -715,13 +715,11 @@ document.getElementById("engraveButton").addEventListener("click", () => {
 
 // Three.js page logic
 document.getElementById("orderButton").addEventListener("click", () => {
-<<<<<<< HEAD
   // Check if the shoe configuration is valid
   // if (!validateShoeConfig()) {
   //   alert("Please complete your shoe configuration.");
   //   return;
   // }
-=======
   if (!validateShoeConfig()) {
     // Show the modal instead of alert
     const modal = document.getElementById("modal");
@@ -730,7 +728,6 @@ document.getElementById("orderButton").addEventListener("click", () => {
     modal.style.display = "block";
     return;
   }
->>>>>>> 543335bb2820f8d0fb74dc5ac0b592bc18533e0e
 
   localStorage.setItem("shoeConfig", JSON.stringify(shoeConfig));
   window.location.href = "/order.html"; // Redirect to the order page where the client will enter their details
