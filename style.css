@@ -290,6 +290,9 @@ select#size {
 
   height: 50px;
   width: 290px;
+  -webkit-appearance: none; /* Remove default styling in WebKit browsers */
+  -moz-appearance: none;    /* Remove default styling in Firefox */
+  appearance: none;   
 }
 
 .shoe-part.selected {
