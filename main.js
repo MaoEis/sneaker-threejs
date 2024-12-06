@@ -167,6 +167,8 @@ loader.load(
   }
 );
 
+
+
 // Function to hide colour and fabric
 const hideOptions = () => {
   const colour = document.querySelector(".colour");
@@ -290,7 +292,117 @@ window.addEventListener("mousemove", (event) => {
   }
 });
 
-// click event select object in shoe and camera animation
+// Globale variabele om het geselecteerde schoenonderdeel bij te houden
+let selectedPart = null;
+
+// Functie om navigatie-items en geselecteerde schoenonderdelen te stylen
+function resetNavStyles() {
+  // Reset de styling van alle navigatie-items
+  const navItems = document.querySelectorAll('.nav a');
+  navItems.forEach(item => {
+    item.style.backgroundColor = ''; // Reset achtergrondkleur
+    item.style.color = '';          // Reset tekstkleur
+  });
+}
+
+// Functie om een schoenonderdeel te selecteren
+function selectPart(targetId) {
+  if (!targetId) {
+    console.error("Invalid targetId passed to selectPart.");
+    return;
+  }
+
+  // Reset de stijl van het eerder geselecteerde onderdeel (indien aanwezig)
+  if (selectedPart) {
+    const prevPart = document.getElementById(selectedPart);
+    if (prevPart) {
+      prevPart.classList.remove('selected-part');
+    }
+  }
+
+  // Sla het geselecteerde onderdeel op
+  selectedPart = targetId;
+
+  // Markeer het nieuwe geselecteerde onderdeel
+  const currentPart = document.getElementById(selectedPart);
+  if (currentPart) {
+    currentPart.classList.add('selected-part');
+    console.log(`Selected part: ${selectedPart}`);
+  } else {
+    console.error(`Element with ID "${selectedPart}" not found in selectPart.`);
+  }
+}
+  
+
+  // Markeer het nieuwe geselecteerde onderdeel
+  const currentPart = document.getElementById(selectedPart);
+  if (currentPart) {
+    currentPart.style.border = '2px solid red';
+    console.log(`Selected part: ${selectedPart}`);  
+  } else {
+    console.error(`Element with ID "${selectedPart}" not found in selectPart.`);
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('engraveButton').addEventListener('click', function() {
+      console.log('Button clicked');
+      const sizeOptions = document.querySelector('.sizeOptions');
+      console.log(sizeOptions);
+      if (sizeOptions) {
+        sizeOptions.style.display = 'none';
+      }
+    });
+  });
+
+
+// Voeg event-listeners toe aan navigatie-items (delen van de schoen)
+const navItems = document.querySelectorAll('.nav a');
+navItems.forEach(item => {
+  item.addEventListener('click', (e) => {
+    e.preventDefault(); // Voorkom standaard linkgedrag
+
+    // Bepaal het doel-ID (bijvoorbeeld "shoe_sole_bottom")
+    const targetId = `shoe_${item.id}`;
+    const shoePart = document.getElementById(targetId);
+
+    if (shoePart) {
+      // Selecteer het schoenonderdeel
+      selectPart(targetId, item);
+      console.log(`Clicked nav item: ${item.id}`);
+    } else {
+      console.error(`Shoe part with ID "${targetId}" not found when clicking nav.`);
+    }
+  });
+});
+
+// Voeg event-listeners toe aan kleurkeuzes
+const colorBoxes = document.querySelectorAll('.box');
+colorBoxes.forEach(box => {
+  box.addEventListener('click', () => {
+    if (!selectedPart) {
+      alert('Selecteer eerst een onderdeel om de kleur aan te passen!');
+      return;
+    }
+
+    // Haal de kleurwaarde op van het aangeklikte element
+    const color = box.getAttribute('data-color');
+    const shoePart = document.getElementById(selectedPart);
+
+    if (shoePart) {
+      // Verwijder eerst de klasse als deze al aanwezig is
+      shoePart.classList.remove('selected-part');
+
+      // Voeg de klasse toe en stel de kleur in
+      shoePart.style.setProperty('--selected-color', `#${color}`);
+      shoePart.classList.add('selected-part');
+      console.log(`Changed color of ${selectedPart} to #${color}`);
+    } else {
+      console.error(`Element with ID "${selectedPart}" not found when applying color.`);
+    }
+  });
+});
+
+
 function styleNavChildren() {
   const nav = document.querySelector(".nav");
   const children = nav.children;
