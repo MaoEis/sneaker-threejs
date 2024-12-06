@@ -345,7 +345,7 @@ function selectPart(targetId) {
 
   document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('engraveButton').addEventListener('click', function() {
-      document.querySelector('.sizeOptions').classList.add('hidden');
+      document.querySelector('.sizeOptions').style.visibility = 'hidden';
     });
   });
 
