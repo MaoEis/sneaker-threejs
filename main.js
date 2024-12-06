@@ -345,23 +345,44 @@ function selectPart(targetId) {
 
   document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM fully loaded and parsed');
-    const engraveButton = document.getElementById('engraveButton');
+    const engravingElements = document.querySelectorAll('.engraving');
     const sizeOptions = document.querySelector('.sizeOptions');
+    const otherLinks = document.querySelectorAll('.nav a:not(.engraving)');
   
-    if (engraveButton) {
-      console.log('Engrave button found');
-      engraveButton.addEventListener('click', function() {
-        console.log('Button clicked');
-        if (sizeOptions) {
-          console.log('Size options found');
-          sizeOptions.classList.add('hidden');
-          console.log('Size options hidden');
-        } else {
-          console.log('Size options not found');
-        }
+    if (engravingElements.length > 0) {
+      console.log('Engraving elements found');
+      engravingElements.forEach(function(element) {
+        element.addEventListener('click', function() {
+          console.log('Engraving element clicked');
+          if (sizeOptions) {
+            console.log('Size options found');
+            sizeOptions.style.display = 'none';
+            console.log('Size options hidden');
+          } else {
+            console.log('Size options not found');
+          }
+        });
       });
     } else {
-      console.log('Engrave button not found');
+      console.log('Engraving elements not found');
+    }
+  
+    if (otherLinks.length > 0) {
+      console.log('Other links found');
+      otherLinks.forEach(function(link) {
+        link.addEventListener('click', function() {
+          console.log('Other link clicked');
+          if (sizeOptions) {
+            console.log('Size options found');
+            sizeOptions.style.display = 'block';
+            console.log('Size options shown');
+          } else {
+            console.log('Size options not found');
+          }
+        });
+      });
+    } else {
+      console.log('Other links not found');
     }
   });
 
