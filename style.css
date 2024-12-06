@@ -305,6 +305,10 @@ select#size {
   background-color: var(--selected-color) !important;
 }
 
+.hidden {
+  display: none;
+}
+
 
 
 @media (min-width: 800px) {

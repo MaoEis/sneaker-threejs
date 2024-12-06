@@ -345,15 +345,9 @@ function selectPart(targetId) {
 
   document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('engraveButton').addEventListener('click', function() {
-      console.log('Button clicked');
-      const sizeOptions = document.querySelector('.sizeOptions');
-      console.log(sizeOptions);
-      if (sizeOptions) {
-        sizeOptions.style.display = 'none';
-      }
+      document.querySelector('.sizeOptions').classList.add('hidden');
     });
   });
-
 
 // Voeg event-listeners toe aan navigatie-items (delen van de schoen)
 const navItems = document.querySelectorAll('.nav a');
