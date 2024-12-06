@@ -82,7 +82,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             productDetailsContainer.innerHTML += `
                 <tr>
-                    <td><img src="https://via.placeholder.com/150" alt="Product Image"></td>
                     <td>${product._id ? product._id.slice(-8) : "N/A"}</td> <!-- Use product ID -->
                     <td>${colors}</td>
                     <td>${fabrics}</td>
