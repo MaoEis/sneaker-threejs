@@ -344,9 +344,25 @@ function selectPart(targetId) {
   }
 
   document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('engraveButton').addEventListener('click', function() {
-      document.querySelector('.sizeOptions').style.visibility = 'hidden';
-    });
+    console.log('DOM fully loaded and parsed');
+    const engraveButton = document.getElementById('engraveButton');
+    const sizeOptions = document.querySelector('.sizeOptions');
+  
+    if (engraveButton) {
+      console.log('Engrave button found');
+      engraveButton.addEventListener('click', function() {
+        console.log('Button clicked');
+        if (sizeOptions) {
+          console.log('Size options found');
+          sizeOptions.classList.add('hidden');
+          console.log('Size options hidden');
+        } else {
+          console.log('Size options not found');
+        }
+      });
+    } else {
+      console.log('Engrave button not found');
+    }
   });
 
 // Voeg event-listeners toe aan navigatie-items (delen van de schoen)
