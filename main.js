@@ -183,7 +183,6 @@ const showOptions = () => {
   fabric.style.display = "flex";
 };
 
-
 // move event select object in shoe when hoover
 //make a raycaster
 const raycaster = new THREE.Raycaster();
@@ -193,6 +192,33 @@ scene.children.forEach((child) => {
   if (child.material && child.material.color) {
     child.originalColor = child.material.color.getHex(); // Store original color
   }
+});
+
+// Listen for clicks on the <a> elements
+document.querySelectorAll(".nav a").forEach((link) => {
+  link.addEventListener("click", (event) => {
+    event.preventDefault(); // Prevent default link behavior
+
+    // Get the part name from the clicked link's ID
+    const partName = event.target.id; // e.g., "laces", "sole_bottom"
+
+    // Find the corresponding object in the 3D scene
+    const selectedMesh = shoe.getObjectByName(partName);
+
+    if (selectedMesh) {
+      // Update the selected part
+      selectedShoePart = selectedMesh;
+      lastSelectedObject = selectedMesh;
+
+      // Display color and fabric options
+      document.querySelector(".colour").style.display = "flex";
+      document.querySelector(".fabric").style.display = "flex";
+
+      console.log(`Selected part: ${partName}`);
+    } else {
+      console.warn(`No matching object found for: ${partName}`);
+    }
+  });
 });
 
 let lastHoveredObject = null;
@@ -474,7 +500,7 @@ document.querySelectorAll(".fabricOption .box-fabric").forEach((box) => {
               normalMap.wrapS = normalMap.wrapT = THREE.RepeatWrapping;
               normalMap.repeat.set(4, 4); // Adjust the repeat value as needed
               normalMap.anisotropy = 16; // Optional: improve texture quality
-             // normalMap.scale.set(0.5, 0.5); // Adjust the normal map scale as needed
+              // normalMap.scale.set(0.5, 0.5); // Adjust the normal map scale as needed
             }
           ),
           roughnessMap: new THREE.TextureLoader().load(
@@ -732,7 +758,6 @@ document.getElementById("orderButton").addEventListener("click", () => {
   localStorage.setItem("shoeConfig", JSON.stringify(shoeConfig));
   window.location.href = "/order.html"; // Redirect to the order page where the client will enter their details
   displayShoeSummary();
-  
 });
 document.getElementById("modalClose").addEventListener("click", () => {
   const modal = document.getElementById("modal");
@@ -780,62 +805,61 @@ function animate() {
   // camera.lookAt(shoe.position);
 }
 
- // Selecteer de kleur- en stofvakjes
- const colorOptions = document.querySelectorAll('.box');
- const fabricOptions = document.querySelectorAll('.box-fabric');
- 
- // Selecteer de titel elementen voor kleur en stof
- const colorTitle = document.querySelector('.colour h2');
- const fabricTitle = document.querySelector('.fabric h2'); // Titel voor stoffen
+// Selecteer de kleur- en stofvakjes
+const colorOptions = document.querySelectorAll(".box");
+const fabricOptions = document.querySelectorAll(".box-fabric");
 
- // Kleur vakjes
- colorOptions.forEach(box => {
-   // Hover effect voor kleurvakjes
-   box.addEventListener('mouseover', () => {
-     // Haal de naam van de kleur uit het data-name attribuut
-     const colorName = box.getAttribute('data-name');
-     // Verander de tekst van de titel naar de kleurnaam
-     colorTitle.textContent = colorName;
-   });
+// Selecteer de titel elementen voor kleur en stof
+const colorTitle = document.querySelector(".colour h2");
+const fabricTitle = document.querySelector(".fabric h2"); // Titel voor stoffen
 
-   // Mouseout effect voor kleurvakjes (herstel naar "COLOUR")
-   box.addEventListener('mouseout', () => {
-     colorTitle.textContent = 'COLOUR';
-   });
+// Kleur vakjes
+colorOptions.forEach((box) => {
+  // Hover effect voor kleurvakjes
+  box.addEventListener("mouseover", () => {
+    // Haal de naam van de kleur uit het data-name attribuut
+    const colorName = box.getAttribute("data-name");
+    // Verander de tekst van de titel naar de kleurnaam
+    colorTitle.textContent = colorName;
+  });
 
-   // Klik functionaliteit voor kleurvakjes
-   box.addEventListener('click', () => {
-     // Verwijder de actieve klasse van alle kleurvakjes
-     colorOptions.forEach(b => b.classList.remove('active'));
-     // Voeg actieve klasse toe aan het geklikte kleurvakje
-     box.classList.add('active');
-   });
- });
+  // Mouseout effect voor kleurvakjes (herstel naar "COLOUR")
+  box.addEventListener("mouseout", () => {
+    colorTitle.textContent = "COLOUR";
+  });
 
- // Stof vakjes
- fabricOptions.forEach(box => {
-   // Hover effect voor stofvakjes
-   box.addEventListener('mouseover', () => {
-     // Haal de naam van de stof uit het data-name attribuut
-     const fabricName = box.getAttribute('data-name');
-     // Verander de tekst van de titel naar de stofnaam
-     fabricTitle.textContent = fabricName;
-   });
+  // Klik functionaliteit voor kleurvakjes
+  box.addEventListener("click", () => {
+    // Verwijder de actieve klasse van alle kleurvakjes
+    colorOptions.forEach((b) => b.classList.remove("active"));
+    // Voeg actieve klasse toe aan het geklikte kleurvakje
+    box.classList.add("active");
+  });
+});
 
-   // Mouseout effect voor stofvakjes (herstel naar "FABRIC")
-   box.addEventListener('mouseout', () => {
-     fabricTitle.textContent = 'FABRIC';
-   });
+// Stof vakjes
+fabricOptions.forEach((box) => {
+  // Hover effect voor stofvakjes
+  box.addEventListener("mouseover", () => {
+    // Haal de naam van de stof uit het data-name attribuut
+    const fabricName = box.getAttribute("data-name");
+    // Verander de tekst van de titel naar de stofnaam
+    fabricTitle.textContent = fabricName;
+  });
 
-   // Klik functionaliteit voor stofvakjes
-   box.addEventListener('click', () => {
-     // Verwijder de actieve klasse van alle stofvakjes
-     fabricOptions.forEach(b => b.classList.remove('active'));
-     // Voeg actieve klasse toe aan het geklikte stofvakje
-     box.classList.add('active');
-   });
- });
+  // Mouseout effect voor stofvakjes (herstel naar "FABRIC")
+  box.addEventListener("mouseout", () => {
+    fabricTitle.textContent = "FABRIC";
+  });
 
+  // Klik functionaliteit voor stofvakjes
+  box.addEventListener("click", () => {
+    // Verwijder de actieve klasse van alle stofvakjes
+    fabricOptions.forEach((b) => b.classList.remove("active"));
+    // Voeg actieve klasse toe aan het geklikte stofvakje
+    box.classList.add("active");
+  });
+});
 
 // Handle window resizing
 window.addEventListener("resize", () => {
