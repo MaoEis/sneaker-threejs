@@ -292,6 +292,19 @@ select#size {
   width: 290px;
 }
 
+.shoe-part.selected {
+  outline: 3px solid red;
+}
+
+.nav a.selected {
+  color: red;
+  font-weight: bold;
+}
+
+.selected-part {
+  background-color: var(--selected-color) !important;
+}
+
 
 
 @media (min-width: 800px) {
