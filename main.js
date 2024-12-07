@@ -411,7 +411,6 @@ const colorBoxes = document.querySelectorAll('.box');
 colorBoxes.forEach(box => {
   box.addEventListener('click', () => {
     if (!selectedPart) {
-      alert('Selecteer eerst een onderdeel om de kleur aan te passen!');
       return;
     }
 
