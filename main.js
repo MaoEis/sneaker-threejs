@@ -374,7 +374,7 @@ function selectPart(targetId) {
           console.log('Other link clicked');
           if (sizeOptions) {
             console.log('Size options found');
-            sizeOptions.style.display = 'block';
+            sizeOptions.style.display = 'flex';
             console.log('Size options shown');
           } else {
             console.log('Size options not found');

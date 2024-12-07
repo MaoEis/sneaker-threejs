@@ -100,7 +100,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         // Populate shipping and payment details
         const shippingContainer = document.querySelector(".order_info_shipping_subcontainer");
         shippingContainer.innerHTML = `
-            <p><strong>Shipping Method:</strong> BPost</p>
+            <p><strong>Shipping Method:</strong> Bpost</p>
             <p>$${shippingCost.toFixed(2)}</p>
         `;
 
