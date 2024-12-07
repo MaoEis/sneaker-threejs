@@ -85,6 +85,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                     <td>${product._id ? product._id.slice(-8) : "N/A"}</td> <!-- Use product ID -->
                     <td>${colors}</td>
                     <td>${fabrics}</td>
+                    <td>${product.initials || "None"}</td>
                     <td>${product.size}</td>
                     <td>$${productPrice.toFixed(2)}</td> <!-- Unit price -->
                     <td>${product.quantity}</td>
